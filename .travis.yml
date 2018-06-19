@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZrIsgvdpo3qZ4G4V1a+imp5nd2rn+Qy6Dsm5dgUVfFX6RwvRElMJLpkOUKlFUc/Y/OjqClHCHm/lMweET/OPgIqkrTpR+L578vMK23Opl98dN2OL1UzwXg/uo59lS7nrUPR6Fa0jKAKnu5AnHpVQR9gdDu2el0tT2yjYNgGaqibvJ2IqR+KnEmgfXmenQUcKo6EIYZCzcvKz9jJZCNCVDSDqsE4DOw9JHyu2Ht1PGFQRs9x+Ppi/6P66jzSNmePPigb8mIyINFTpmy2qbtP6y2eQbK8fNjH+1pJrZtHSF1WAdhDMiQM3htXxuao+LFAR7ZNhdqZOtLC3Vw1IW/oN80gbybnZ0kv4krNdqLlpm5IhqK3Wr6HHYNDrbiujZX3ZMszVWOurmaSwsNjY3guLUKepFKl1j5QqS18L2F091ki/nAGZVv4dXojFkiPKu0X5EHEOt3UzYyECrX0YZSny0rsg/Z9MzRydTD3GyzMdrwoqrJcDtjMSMOTPbPMwXArZffmTIha+8rJD4npx4EZnBRBhExWmsPt8iOTOHkVviKB8KPqsd6vRvQkdiylahNZdJQu0Nbbdn26u5KA9mVf9MRddd5uaQYlvhs8vCQ+vK/O6D8rkgEUtqA7l5tf6umFxPzSfcdeJqUeWRBu9tkvR2EsS5/dS7WNIGeemm2+crnY=
+  app: polar-reef-91810
+  on:
+    repo: shirleykiang/bao-app
