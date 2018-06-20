@@ -1,3 +1,100 @@
-<p>
-    Hello World!
-</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Bao</title>
+  <link rel="stylesheet" href="styles/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+</head>
+
+<body>
+
+  <header role="banner">
+      <nav role="navigation" class="navbar">
+          <div class="leftnav">
+            <a class="nav-logo" href="/">
+                <img src="logowithname" alt="bao-logo">
+            </a>
+          </div>
+          <div class="rightnav">
+            <button class="nav-item-login">LOG IN</button>
+            <button class="nav-item-create" id="create-a-recipe">CREATE A RECIPE</button>
+          </div>
+      </nav>
+  </header>
+
+  <main role="main">
+
+    <div class="recipes-section">
+        FEATURED RECIPES:
+        <div class="recipes-index">
+
+        </div>
+    </div>
+
+    <div class="recipe-page">
+        <div class="recipe-page-title">
+        </div>
+        <div class="recipe-page-author"></div>
+        <span class="recipe-page-category"></div>
+        <img src="imgurl" alt="recipe-name">
+        <div class="recipe-page-ingredients"></div>
+        <div class="recipe-page-directions"></div>
+        <div class="recipe-page-notes">
+            Notes
+            <a href="/addnote" class="add-note-link">
+                +
+            </a>
+        </div>
+    </div>
+
+    <div class="recipe-form-page">
+        <div class="recipe-form-contents">
+            <div class="recipe-form-head">
+                <h1>New Recipe</h1>
+            </div>
+        </div>
+        <form class="recipe-form">
+            <label for="recipe-name">Dish Name</label>
+            <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
+            
+            <label for="recipe-category">Category</label>
+            <select id="recipe-category" class="recipe-category" value required>
+                <option value="Food">Food</option>
+                <option value="Dessert">Dessert</option>
+            </select>
+
+            <label for="recipe-servings">Servings</label>
+            <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
+
+            <label for="recipe-ingredients">Ingredients</label>
+            <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
+            
+            <label for="recipe-directions">Directions</label>
+            <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
+            
+            <label for="recipe-image">Image</label>
+            <div class="" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
+                <p>Drop an image or click to select a file to upload</p>
+                
+                <input type="file" accept="image/*" style="display: none;">
+            </div>
+            
+        </form>
+    </div>
+
+
+
+  </main>
+
+  <footer role="contentinfo">
+    </footer>
+</body>
+
+</html>
