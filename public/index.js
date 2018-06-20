@@ -206,6 +206,8 @@ function handleDisplayUser() {
 // write a function for when user clicks on log in button, lead to
 // login page
 function handleLoginClick() {
+ 
+
     $(".nav-item-login").on("click", function() {
         console.log('clicking login button');
         $("body").html(`
@@ -220,13 +222,14 @@ function handleLoginClick() {
                 <legend class="form-title">Login to Bao</legend>
                 <div class="login-form">
                     <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="peterparker" class="js-username-entry" value required>
+                    <input type="text" id="username" placeholder="peterparker" class="js-username-entry" value >
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="password" class="js-password-entry" value required>
+                    <input type="password" id="password" placeholder="password" class="js-password-entry" value >
                     
-                    <input type="submit" class="login-button">Sign Up</button>
+                    <button type="submit" class="login-button">Sign Up</button>
                 </div>
+                </fieldset>
                 <div class="session-foot">
                     <div>
                     <span>
@@ -234,7 +237,6 @@ function handleLoginClick() {
                     </span>
                     </div>
                 </div>
-                </fieldset>
             </form>
         </div>
         </div>
@@ -243,19 +245,35 @@ function handleLoginClick() {
 }
 
 function handleFormToggle() {
-    console.log('handleFormToggle ran');
-     // toggle form-title
-     // toggle login-button
+    //console.log('handleFormToggle ran');
+
+    // toggle form-title
+    $("body").on("click", ".switch-form-button", function() {
+        // console.log('switch button getting clicked');
+        // console.log($(".switch-form-button").text());
+        $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
+    });
+
+    // toggle login-button
+    $("body").on("click", ".switch-form-button", function() {
+        // console.log('switch button getting clicked');
+        // console.log($(".switch-form-button").text());
+        $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
+    });
 
      // toggle switch-form-button
-    $(".switch-form-button").on("click", function() {
-     console.log('switch button getting clicked');
-    $("switch-form-button").val($("switch-form-button").val() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
- })
+    $("body").on("click", ".switch-form-button", function() {
+    // console.log('switch button getting clicked');
+    // console.log($(".switch-form-button").text());
+    $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
+ });
 }
 
 function handleLoginSubmit() {
-    // do something
+    $("form").on("submit", function(event) {
+        console.log("am iw roking");
+        event.preventDefault();
+    })
 }
 
 function handleSignupSubmit() {
