@@ -227,7 +227,7 @@ function handleLoginClick() {
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="password" class="js-password-entry" value >
                     
-                    <button type="submit" class="login-button">Sign Up</button>
+                    <button type="submit" class="login-button">Log In</button>
                 </div>
                 </fieldset>
                 <div class="session-foot">
@@ -247,26 +247,22 @@ function handleLoginClick() {
 function handleFormToggle() {
     //console.log('handleFormToggle ran');
 
-    // toggle form-title
-    $("body").on("click", ".switch-form-button", function() {
-        // console.log('switch button getting clicked');
-        // console.log($(".switch-form-button").text());
-        $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
-    });
 
-    // toggle login-button
-    $("body").on("click", ".switch-form-button", function() {
-        // console.log('switch button getting clicked');
-        // console.log($(".switch-form-button").text());
-        $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
-    });
-
-     // toggle switch-form-button
     $("body").on("click", ".switch-form-button", function() {
     // console.log('switch button getting clicked');
     // console.log($(".switch-form-button").text());
+
+    // toggle form-title
+    $(".form-title").text($(".form-title").text() == 'Login to Bao' ? 'Create an Account' : 'Login to Bao');
+
+    // toggle login-button
+    $(".login-button").text($(".login-button").text() == 'Log In' ? 'Sign Up' : 'Log In');
+
+     // toggle switch-form-button
     $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
- });
+    
+
+});
 }
 
 function handleLoginSubmit() {
