@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="styles/index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="index.js"></script>
+
+  <script type="text/javascript" src="scripts/store.js"></script>
+  <script type="text/javascript" src="scripts/index.js"></script>
 </head>
 
 <body>
@@ -18,9 +20,9 @@
   <header role="banner">
       <nav role="navigation" class="navbar">
           <div class="leftnav">
-            <button class="nav-logo">
-                <img src="logowithname" alt="bao-logo">
-            </button>
+            <a href="javascript:window.location.reload(true)" class="nav-logo">
+                <img src="logowithname" alt="bao-logo" class="session-home-link">
+            </a>
           </div>
           <div class="rightnav">
             <button class="nav-item-login">LOG IN</button>
@@ -37,42 +39,6 @@
 
         </div>
     </div>
-
-    <div class="recipe-form-page">
-        <div class="recipe-form-contents">
-            <div class="recipe-form-head">
-                <h1>New Recipe</h1>
-            </div>
-        </div>
-        <form class="recipe-form">
-            <label for="recipe-name">Dish Name</label>
-            <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
-            
-            <label for="recipe-category">Category</label>
-            <select id="recipe-category" class="recipe-category" value required>
-                <option value="Food">Food</option>
-                <option value="Dessert">Dessert</option>
-            </select>
-
-            <label for="recipe-servings">Servings</label>
-            <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
-
-            <label for="recipe-ingredients">Ingredients</label>
-            <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
-            
-            <label for="recipe-directions">Directions</label>
-            <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
-            
-            <label for="recipe-image">Image</label>
-            <div class="" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
-                <p>Drop an image or click to select a file to upload</p>
-                
-                <input type="file" accept="image/*" style="display: none;">
-            </div>
-            
-        </form>
-    </div>
-
 
 
   </main>
