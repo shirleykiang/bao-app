@@ -150,6 +150,8 @@ function generateRecipes(data) {
 }
 
 function generateNotes(data) {
+
+    console.log('generateNotes running');
     const currentUserIndex = data.users.findIndex( user => user.username === loadUsername());
     //console.log(`this is the currentuser index: ${currentUserIndex}`);
     const currentUserNotes = data.users[currentUserIndex].notes; // returns array of objects
@@ -189,6 +191,8 @@ function getRecipeIndexFromClick(target) {
 }
 
 function getNotes(callbackFn) {
+
+    console.log('getNotes running');
     setTimeout(function() {
         callbackFn(MOCK_USERS)
     }, 1);
@@ -209,7 +213,9 @@ function handleRecipeClick() {
 }
 
 function handleDisplayOneRecipe(recipeIndex) {
+    console.log('handleDisplayOneRecipe running');
     let recipe_object = MOCK_RECIPES.recipes[recipeIndex];
+    console.log(`this is the displaying recipe object: ${recipe_object}`);
     clearCurrentDish();
     saveCurrentDish(recipe_object.id);
     console.log(`this is the id of the currentdish: ${loadCurrentDish()}`);
@@ -246,7 +252,9 @@ function handleDisplayRecipes() {
 }
 
 function handleDisplayNotes() {
-    //if user is logged in
+    //check if user is logged in
+
+    console.log('handleDisplayNotes running');
     if (loadUsername()) {
         $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section"><button class="add-note-button">+</button></div>');
         getNotes(generateNotes);
@@ -255,8 +263,6 @@ function handleDisplayNotes() {
 }
 
 
-// write a function for when user clicks on log in button, lead to
-// login page
 function handleLoginClick() {
  
     $(".nav-item-login").on("click", function() {
@@ -476,7 +482,7 @@ function handleDisplayRecipeForm() {
 
 function handleRecipeSubmit(callbackFn) {
     console.log('handleRecipeSubmit running');
-    $("main").on("submit", "form", function(event) {
+    $("main").on("submit", "#recipe-form", function(event) {
         event.preventDefault();
         console.log('submitted a new recipe');
         // if user not logged in redirect them to log in page 
@@ -489,19 +495,25 @@ function handleRecipeSubmit(callbackFn) {
             ingredients: recipeForm.find(".recipe-ingredients").val(),
             servings: recipeForm.find(".recipe-servings").val(),
             directions: recipeForm.find(".recipe-directions").val(),
-            author: loadUsername()
+            author: loadUsername(),
+            id: 1111116
         };
 
         // add an id to recipe with newRecipe
 
         console.log(newRecipe);
 
-        //post newRecipe to db
-        //setTimeout(function(newRecipe) {callbackFn(MOCK_RECIPES, newRecipe)});
+        //push newRecipe to db at end of list of recipes
+        MOCK_RECIPES.recipes.push(newRecipe);
+        console.log(MOCK_RECIPES.recipes.length);
+        //pass in the index of new recipe to display newly created recipe page
+        handleDisplayOneRecipe((MOCK_RECIPES.recipes.length)-1);
+
     });
 }
 
 function handleDisplayNoteForm() {
+    console.log(`handleDiplsayNoteForm running`);
     $("main").html(`
         <div class="note-form-page">
             <div class="note-form-contents">
@@ -517,7 +529,10 @@ function handleDisplayNoteForm() {
 }
 
 function handleAddNoteClick() {
-    $("main").on("click", ".add-note-button", function() {
+    console.log('handleAddNoteClick running');
+    $("main").unbind().on("click", ".add-note-button", function() {
+
+        console.log('user click add note button');
         handleDisplayNoteForm();
         handleSubmitNote();
     });
@@ -532,7 +547,9 @@ function handleDeleteNoteClick() {
 }
 
 function handleSubmitNote() {
+    console.log('handlesubmitnote running');
     $("main").on("submit", "#note-form", function(event) {
+        console.log('user submitted new note to note form');
         event.preventDefault();
         const currentUserIndex = MOCK_USERS.users.findIndex( user => user.username === loadUsername());
         const currentDishIndex = MOCK_RECIPES.recipes.findIndex( recipe => recipe.id === Number(loadCurrentDish()));
