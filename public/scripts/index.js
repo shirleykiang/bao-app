@@ -160,7 +160,7 @@ function generateUsername() {
 }
 
 function generateNotes(data) {
-    const currentUserIndex = data.users.findIndex( user => user.id === store.id);
+    const currentUserIndex = data.users.findIndex( user => user.username === loadUsername);
     const currentUserNotes = data.users[currentUserIndex].notes
     console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
     if (currentUserNotes) {
@@ -212,8 +212,8 @@ function handleRecipeClick() {
         let recipe_index = getRecipeIndexFromClick($(event.target));
         console.log(`this is the index: ${recipe_index}`);
         let recipe_object = MOCK_RECIPES.recipes[recipe_index];
-        store.currentDish = recipe_object.id;
-        //console.log(`this is the id of the currentdish: ${store.currentDish}`);
+        saveCurrentDish(recipe_object.id);
+        console.log(`this is the id of the currentdish: ${loadCurrentDish()}`);
         $('main').html(`
             <div class="recipe-page">
                 <div class="recipe-page-title">
@@ -263,7 +263,13 @@ function handleLoginClick() {
  
     $(".nav-item-login").on("click", function() {
         console.log('clicking login button');
-        $("body").html(`
+        handleDisplayLoginPage();
+    });
+}
+
+
+function handleDisplayLoginPage() {
+    $("body").html(`
 
         <div class="session-page">
         <a href="javascript:window.location.reload(true)" class="session-home-link">
@@ -294,7 +300,6 @@ function handleLoginClick() {
         </div>
         </div>
         `)
-    })
 }
 
 function handleFormToggle() {
@@ -343,9 +348,10 @@ function handleLoginSubmit() {
         if (existingUser) {
             if (passwordInput === existingUser.password) {
                 console.log('you got the correct combo');
-                store.username = existingUser.username;
-                store.id = existingUser.id;
+                saveUsername(existingUser.username);
+                location.reload(); // is there a better way to bring back to home page? 
                 // LOG EM IN, redirect them to the home page
+                //handleLogoutDisplay();
                 // turn log in button into log out button
                 // store their username and id in local storage 
                 // give em a token
@@ -359,6 +365,22 @@ function handleLoginSubmit() {
             console.log("wrong username or password. try again.");
         }
         
+    });
+}
+
+function handleLogoutDisplay() {
+    // $(".nav-item-login").html('LOG OUT'); 
+    handleLogoutSubmit();
+    console.log('handleLogoutDisplay ran');
+}
+
+function handleLogoutSubmit() {
+    $(".nav-item-login").on("click", function() {
+        // destroy user data persistence
+        clearUsername();
+        clearAuthToken();
+        clearCurrentDish();
+        location.reload();
     });
 }
 
@@ -383,60 +405,70 @@ function handleSignupSubmit() {
 
             console.log(`this is the new user: ${newUser}`);
             // add them into db , assign them a id and expiration and give em a token 
-            store.username = newUser.username;
-            store.id = newUser.id;
+            saveUsername(newUser.username);
             // redirect them back to homepage 
         } else {
             console.log('this username is already taken, please try again');
             // empty out password input but keep username input  
         } 
-        
     });
 }
 
 function handleCreateRecipe() {
+
     $(".nav-item-create").on("click", function() {
-        $("main").html(`
-            <div class="recipe-form-page">
-                <div class="recipe-form-contents">
-                    <div class="recipe-form-head">
-                        <h1>New Recipe</h1>
-                    </div>
-                </div>
-                <form id="recipe-form">
-
-                    <label for="recipe-name">Dish Name</label>
-                    <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
-                
-                    <label for="recipe-category">Category</label>
-                    <select id="recipe-category" class="recipe-category" value required>
-                        <option value="Food">Food</option>
-                        <option value="Dessert">Dessert</option>
-                    </select>
-
-                    <label for="recipe-servings">Servings</label>
-                    <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
-
-                    <label for="recipe-ingredients">Ingredients</label>
-                    <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
-                    
-                    <label for="recipe-directions">Directions</label>
-                    <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
-                    
-                    <label for="recipe-image">Image</label>
-                    <div class="recipe-image" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
-                        <p>Drop an image or click to select a file to upload</p>
-                        
-                        <input type="file" accept="image/*" style="display: none;">
-                    </div>
-                    <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
-                </form>
-            </div>
-
-        `)
+        if (!(loadUsername())) {
+            console.log('there is no user logged in currently');
+            handleDisplayLoginPage();
+        } else {
+            handleDisplayRecipeForm();
+        }
     });
+}
+
+function handleDisplayRecipeForm() {
+    $("main").html(`
+        <div class="recipe-form-page">
+            <div class="recipe-form-contents">
+                <div class="recipe-form-head">
+                    <h1>New Recipe</h1>
+                </div>
+            </div>
+            <form id="recipe-form">
+
+                <label for="recipe-name">Dish Name</label>
+                <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
+            
+                <label for="recipe-category">Category</label>
+                <select id="recipe-category" class="recipe-category" value required>
+                    <option value="Food">Food</option>
+                    <option value="Dessert">Dessert</option>
+                </select>
+
+                <label for="recipe-servings">Servings</label>
+                <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
+
+                <label for="recipe-ingredients">Ingredients</label>
+                <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
+                
+                <label for="recipe-directions">Directions</label>
+                <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
+                
+                <label for="recipe-image">Image</label>
+                <div class="recipe-image" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
+                    <p>Drop an image or click to select a file to upload</p>
+                    
+                    <input type="file" accept="image/*" style="display: none;">
+                </div>
+                <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
+            </form>
+        </div>
+
+    `);
+
     handleRecipeSubmit();
-    // still need to redirect author back to recipe page
+
+    // add code to redirect user back to recipe page that was just created
 }
 
 function handleRecipeSubmit(callbackFn) {
@@ -444,6 +476,7 @@ function handleRecipeSubmit(callbackFn) {
     $("main").on("submit", "form", function(event) {
         event.preventDefault();
         console.log('submitted a new recipe');
+        // if user not logged in redirect them to log in page 
         //console.log(`event current target name input: ${$(event.currentTarget).find(".recipe-name").val()}`);
         const recipeForm = $(event.currentTarget);
         const newRecipe = {
@@ -453,7 +486,7 @@ function handleRecipeSubmit(callbackFn) {
             ingredients: recipeForm.find(".recipe-ingredients").val(),
             servings: recipeForm.find(".recipe-servings").val(),
             directions: recipeForm.find(".recipe-directions").val(),
-            author: store.username
+            author: loadUsername()
         };
 
         console.log(newRecipe);
