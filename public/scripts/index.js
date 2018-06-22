@@ -327,7 +327,7 @@ function handleFormToggle() {
 
 function handleLoginSubmit() {
     console.log('handle login submit running');
-    $("body").on("submit", "form", function(event) {
+    $("body").on("submit", "#session-form", function(event) {
         event.preventDefault();
         const userForm = $(event.currentTarget);
         const usernameInput = userForm.find(".username-entry").val();
@@ -502,10 +502,9 @@ function handleDisplayNoteForm() {
                     <h1>New Note</h1>
                 </div>
                 <form id="note-form">
-
-            <textarea class="note-content" rows="10" cols="30"></textarea>
-            <button type="submit" form="note-form" class="submit-note-form">ADD</button>
-        </form>
+                    <textarea class="note-content" rows="10" cols="30"></textarea>
+                    <button type="submit" form="note-form" class="submit-note-form">ADD</button>
+                </form>
     </div>
     `)
 }
@@ -513,6 +512,7 @@ function handleDisplayNoteForm() {
 function handleAddNoteClick() {
     $("main").on("click", ".add-note-button", function() {
         handleDisplayNoteForm();
+        handleSubmitNote();
     });
 }
 
@@ -525,7 +525,13 @@ function handleDeleteNoteClick() {
 }
 
 function handleSubmitNote() {
-    // do something
+    $("main").on("submit", "#note-form", function(event) {
+        event.preventDefault();
+        const userNote = $(event.currentTarget).find("textarea").val();
+        console.log(`this is the usernote: ${userNote}`);
+        // add note content 
+
+    })
 }
 
 function bindEventListeners() {
