@@ -13,7 +13,7 @@ let MOCK_RECIPES = {
             "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg"
         },
         {
-            "id": 1111111,
+            "id": 1111112,
             "name": "Aiyu Jelly",
             "category": "Dessert",
             "ingredients": ["1 can aiyu jelly", "5 lemons", "4 cups water", "1 cup honey"],
@@ -23,7 +23,7 @@ let MOCK_RECIPES = {
             "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg"
         },
         {
-            "id": 1111111,
+            "id": 1111113,
             "name": "Zha Jiang Mian",
             "category": "Food",
             "ingredients": ["1.5 lbs ground pork", "1 can sweet bean sauce", "1 onion, diced", "1/2 large carrot, diced", "1 pack bean curd, diced (larger than carrot and onion dices)", "1 tbsp dou ban jiang", "1/2 cup chopped cucumbers"],
@@ -33,7 +33,7 @@ let MOCK_RECIPES = {
             "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg"
         },
         {
-            "id": 1111111,
+            "id": 1111114,
             "name": "Coconut Mochi Cake",
             "category": "Dessert",
             "ingredients": ["1 box mochi flour", "1 cup sugar", "1/4 tsp salt", "2 cans coconut milk", "3 eggs", "1 tbsp baking powder", "1 pack coconut flakes"],
@@ -43,7 +43,7 @@ let MOCK_RECIPES = {
             "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg"
         },
         {
-            "id": 1111111,
+            "id": 1111115,
             "name": "Pork Spare Ribs",
             "type": "Food",
             "ingredients": ["2 lbs pork spareribs", "3 shallots", "2 tbsp spare rib sauce", "1/2 cup sugar"],
@@ -197,43 +197,48 @@ function getNotes(callbackFn) {
 // EVENT LISTENERS AND HANDLERS
 
 function handleRecipeClick() {
-    console.log('handlerRecipeClick ran');
-
+    //console.log('handlerRecipeClick ran');
     $(".recipes-index").on("click", ".recipe-image", function(event) {
-        console.log('clicked on recipe-image');
+        //console.log('clicked on recipe-image');
         let recipe_index = getRecipeIndexFromClick($(event.target));
+
         console.log(`this is the index: ${recipe_index}`);
-        let recipe_object = MOCK_RECIPES.recipes[recipe_index];
-        saveCurrentDish(recipe_object.id);
-        console.log(`this is the id of the currentdish: ${loadCurrentDish()}`);
-        $('main').html(`
-            <div class="recipe-page">
-                <div class="recipe-page-title">
-                <h1 class="recipe-title">${recipe_object.name}</h1>
-                </div>
-                <div class="recipe-page-author">
-                <h2 class="recipe-author">${recipe_object.author}</h2>
-                </div>
-                <br>
-                <span class="recipe-page-category">
-                ${recipe_object.category}
-                </span>
-                <br>
-                <img src="${recipe_object.image}" alt="${recipe_object.name}" style="width:200px; height:200px;">
-                <div class="recipe-page-ingredients">
-                ${recipe_object.ingredients}
-                </div>
-                <div class="recipe-page-directions">
-                ${recipe_object.directions}</div>
-                <div class="recipe-page-notes">
-                </div>
-            </div>
-    `);
-        handleDisplayNotes();
+        handleDisplayOneRecipe(recipe_index);
+        
     });
 }
 
-
+function handleDisplayOneRecipe(recipeIndex) {
+    let recipe_object = MOCK_RECIPES.recipes[recipeIndex];
+    clearCurrentDish();
+    saveCurrentDish(recipe_object.id);
+    console.log(`this is the id of the currentdish: ${loadCurrentDish()}`);
+    $('main').html(`
+        <div class="recipe-page">
+            <div class="recipe-page-title">
+                <h1 class="recipe-title">${recipe_object.name}</h1>
+            </div>
+            <div class="recipe-page-author">
+                <h2 class="recipe-author">${recipe_object.author}</h2>
+            </div>
+            <br>
+            <span class="recipe-page-category">
+            ${recipe_object.category}
+            </span>
+            <br>
+            <img src="${recipe_object.image}" alt="${recipe_object.name}" style="width:200px; height:200px;">
+            <div class="recipe-page-ingredients">
+            ${recipe_object.ingredients}
+            </div>
+            <div class="recipe-page-directions">
+            ${recipe_object.directions}
+            </div>
+            <div class="recipe-page-notes">
+            </div>
+        </div>
+    `);
+    handleDisplayNotes();
+}
 
 function handleDisplayRecipes() {
     console.log('handleDisplayRecipes ran')
@@ -506,7 +511,7 @@ function handleDisplayNoteForm() {
                     <button type="submit" form="note-form" class="submit-note-form">ADD</button>
                 </form>
     </div>
-    `)
+    `);
 }
 
 function handleAddNoteClick() {
@@ -527,9 +532,22 @@ function handleDeleteNoteClick() {
 function handleSubmitNote() {
     $("main").on("submit", "#note-form", function(event) {
         event.preventDefault();
-        const userNote = $(event.currentTarget).find("textarea").val();
-        console.log(`this is the usernote: ${userNote}`);
-        // add note content 
+        const currentUserIndex = MOCK_USERS.users.findIndex( user => user.username === loadUsername());
+        const currentDishIndex = MOCK_RECIPES.recipes.findIndex( recipe => recipe.id === Number(loadCurrentDish()));
+        //console.log(`this is current dish index: ${currentDishIndex}`);
+        const noteContent = $(event.currentTarget).find("textarea").val();
+        console.log(`this is the usernote: ${noteContent}`);
+        const newNote = {
+            id: null, // somehow add id to note... id is useful for deleting later on 
+            dish: loadCurrentDish(),
+            content: noteContent
+        };
+
+        // add note content to db
+        MOCK_USERS.users[currentUserIndex].notes.push(newNote); 
+        console.log(newNote);
+        console.log(MOCK_USERS.users[currentUserIndex].notes);
+        handleDisplayOneRecipe(currentDishIndex);
 
     })
 }
