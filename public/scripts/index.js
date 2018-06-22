@@ -367,15 +367,17 @@ function handleLoginSubmit() {
 }
 
 function handleLogoutDisplay() {
-    // $(".nav-item-login").html('LOG OUT'); 
     handleLogoutSubmit();
     console.log('handleLogoutDisplay ran');
 }
 
 function handleLogoutSubmit() {
-    $(".nav-item-login").on("click", function() {
-        handleLogout();
-    });
+    if (loadUsername()) {
+        $(".nav-item-login").html('LOG OUT'); 
+        $(".nav-item-login").on("click", function() {
+            handleLogout();
+        });
+}
 }
 
 function handleLogout() {
@@ -536,7 +538,7 @@ function handleSubmitNote() {
         const currentDishIndex = MOCK_RECIPES.recipes.findIndex( recipe => recipe.id === Number(loadCurrentDish()));
         //console.log(`this is current dish index: ${currentDishIndex}`);
         const noteContent = $(event.currentTarget).find("textarea").val();
-        console.log(`this is the usernote: ${noteContent}`);
+        //console.log(`this is the usernote: ${noteContent}`);
         const newNote = {
             id: null, // somehow add id to note... id is useful for deleting later on 
             dish: loadCurrentDish(),
@@ -545,8 +547,9 @@ function handleSubmitNote() {
 
         // add note content to db
         MOCK_USERS.users[currentUserIndex].notes.push(newNote); 
-        console.log(newNote);
-        console.log(MOCK_USERS.users[currentUserIndex].notes);
+
+        // console.log(newNote);
+        // console.log(MOCK_USERS.users[currentUserIndex].notes);
         handleDisplayOneRecipe(currentDishIndex);
 
     })
@@ -557,6 +560,7 @@ function bindEventListeners() {
     handleFormToggle();
     handleLoginClick();
     handleLoginSubmit();
+    handleLogoutSubmit();
     handleRecipeClick();
     handleDisplayRecipes();
     handleCreateRecipe();
