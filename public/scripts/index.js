@@ -136,14 +136,11 @@ let MOCK_USERS = {
 // write a function for when user clicks on submit note button,
 // adds the note to the user database 
 
-// write a function for when user clicks on 'create a recipe'
-// button, leads to recipe form page 
-
 // write a function for when user clicks submit recipe 
 // form, update recipe db, lead back to home page
 
-// write a function for when user clicks on logo
-// lead back to home page 
+
+// write something that replaces log in button with log out button
 
 
 // GENERATE HTML FUNCTIONS
@@ -273,15 +270,15 @@ function handleLoginClick() {
             <img src="" alt="bao-logo" class="session-home-link">
         </a>
         <div class="form-div">
-            <form id="session-form">
+            <form id="session-form" data-login="true">
                 <fieldset>
                 <legend class="form-title">Login to Bao</legend>
                 <div class="login-form">
                     <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="peterparker" class="js-username-entry" value >
+                    <input type="text" id="username" placeholder="peterparker" class="username-entry" value >
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="password" class="js-password-entry" value >
+                    <input type="password" id="password" placeholder="password" class="password-entry" value >
                     
                     <button type="submit" form="session-form" class="login-button">Log In</button>
                 </div>
@@ -317,19 +314,83 @@ function handleFormToggle() {
      // toggle switch-form-button
     $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
     
+    $("#session-form").attr("data-login", $("#session-form").attr("data-login")=="true" ? "false" : "true");
+
+    console.log($("#session-form").attr("data-login"));
+    if ($("#recipe-form").attr("data-login")) {
+        handleLoginSubmit();
+    } else {
+        handleSignupSubmit();
+    }
+
 
 });
 }
 
 function handleLoginSubmit() {
-    // $("body").on("submit", ".login-button", function() {
-    //     console.log("handleloginsubmit ran");
-    //     event.preventDefault();
-    // })
+    console.log('handle login submit running');
+    $("body").on("submit", "form", function(event) {
+        event.preventDefault();
+        const userForm = $(event.currentTarget);
+        const usernameInput = userForm.find(".username-entry").val();
+        console.log(`second time username input: ${usernameInput}`);
+        const passwordInput = userForm.find(".password-entry").val();
+        console.log(`this is the password inputted: ${passwordInput}`);
+        const existingUser = MOCK_USERS.users.find(user => user.username === usernameInput);
+        //console.log(`testing if ${passwordInput} equals ${existingUser.password}`);
+        // if usernameinput doesn't exist OR password doesn't match password of username input 
+        // empty out form and tell them to try again
+        if (existingUser) {
+            if (passwordInput === existingUser.password) {
+                console.log('you got the correct combo');
+                store.username = existingUser.username;
+                store.id = existingUser.id;
+                // LOG EM IN, redirect them to the home page
+                // turn log in button into log out button
+                // store their username and id in local storage 
+                // give em a token
+            } else {
+                console.log('wrong password sucka');
+                // return  message saying wrong username or password. try again. 
+                // return reset log in form but username still there
+            }
+        } else {
+            //if the username doesn't even exist
+            console.log("wrong username or password. try again.");
+        }
+        
+    });
 }
 
 function handleSignupSubmit() {
-    // do something
+    $("body").on("submit", "form", function(event) {
+        event.preventDefault();
+        console.log(`event current target username input: ${$(event.currentTarget).find(".username-entry").val()}`);
+        const userForm = $(event.currentTarget);
+        const usernameInput = userForm.find(".username-entry").val();
+        const passwordInput = userForm.find(".username-password").val();
+        const existingUser = MOCK_USERS.users.find(user => user.username === usernameInput);
+
+        if (!existingUser) {
+            const newUser = {
+                username: usernameInput,
+                password: passwordInput,
+                id: null,
+                expiration: null,
+                notes: []
+            };
+
+            console.log(`this is the new user: ${newUser}`);
+            // add them into db , assign them a id and expiration and give em a token 
+            store.username = usernameInput;
+            store.username = newUser.id;
+            // redirect them back to homepage 
+        } else {
+            console.log('this username is already taken, please try again');
+            // empty out password input but keep username input  
+        } 
+        
+    });
 }
 
 function handleCreateRecipe() {
@@ -374,9 +435,9 @@ function handleCreateRecipe() {
         `)
     });
     handleRecipeSubmit();
+    // still need to redirect author back to recipe page
 }
 
-// QUESTION how to target form element
 function handleRecipeSubmit(callbackFn) {
     console.log('handleRecipeSubmit running');
     $("main").on("submit", "form", function(event) {
@@ -391,15 +452,16 @@ function handleRecipeSubmit(callbackFn) {
             ingredients: recipeForm.find(".recipe-ingredients").val(),
             servings: recipeForm.find(".recipe-servings").val(),
             directions: recipeForm.find(".recipe-directions").val(),
-            //author: recipeForm.find(".recipe-author").val()
+            author: store.username
         };
 
         console.log(newRecipe);
 
         //post newRecipe to db
-        //setTimeout(function(newRecipe) {callbackFn(newRecipe, MOCK_RECIPES)});
+        //setTimeout(function(newRecipe) {callbackFn(MOCK_RECIPES, newRecipe)});
     });
 }
+
 
 function handleAddNoteClick() {
     // do something
@@ -417,6 +479,7 @@ function bindEventListeners() {
     console.log('page has loaded');
     handleFormToggle();
     handleLoginClick();
+    handleLoginSubmit();
     handleRecipeClick();
     handleDisplayRecipes();
     handleCreateRecipe();

@@ -4,7 +4,8 @@ const store = (function () {
 
     return {
         authToken: "fake_token",
-        id: 1111112,
+        id: null,
+        username: "",
         currentDish: null
     };
 }());
