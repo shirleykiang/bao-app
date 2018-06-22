@@ -368,6 +368,7 @@ function handleSignupSubmit() {
         console.log(`event current target username input: ${$(event.currentTarget).find(".username-entry").val()}`);
         const userForm = $(event.currentTarget);
         const usernameInput = userForm.find(".username-entry").val();
+        console.log(`this is usernameInput second time ${usernameInput}`);
         const passwordInput = userForm.find(".username-password").val();
         const existingUser = MOCK_USERS.users.find(user => user.username === usernameInput);
 
@@ -382,8 +383,8 @@ function handleSignupSubmit() {
 
             console.log(`this is the new user: ${newUser}`);
             // add them into db , assign them a id and expiration and give em a token 
-            store.username = usernameInput;
-            store.username = newUser.id;
+            store.username = newUser.username;
+            store.id = newUser.id;
             // redirect them back to homepage 
         } else {
             console.log('this username is already taken, please try again');
