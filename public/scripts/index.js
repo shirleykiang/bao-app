@@ -124,12 +124,6 @@ let MOCK_USERS = {
     ]
 }
 
-// function to redirect create a recipe button to login if user not logged in yet 
-
-// write a function for when user clicks on a recipe image,
-// leads them to recipe page 
-// and loads user's notes if logged in
-
 // write a function for when user clicks on add note button,
 // opens up note to write 
 
@@ -153,10 +147,6 @@ function generateRecipes(data) {
             <img alt="${data.recipes[i].name}" src="${data.recipes[i].image}" class="recipe-image" index="${i}" style="width: 200px; height: 200px;">
             <br>`
         )};
-}
-
-function generateUsername() {
-    // do something
 }
 
 function generateNotes(data) {
@@ -255,6 +245,7 @@ function handleDisplayNotes() {
     if (loadUsername()) {
         $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section"><button class="add-note-button">+</button></div>');
         getNotes(generateNotes);
+        handleAddNoteClick();
     }
 }
 
@@ -301,7 +292,7 @@ function handleDisplayLoginPage() {
             </form>
         </div>
         </div>
-        `)
+        `);
 }
 
 function handleFormToggle() {
@@ -503,9 +494,26 @@ function handleRecipeSubmit(callbackFn) {
     });
 }
 
+function handleDisplayNoteForm() {
+    $("main").html(`
+        <div class="note-form-page">
+            <div class="note-form-contents">
+                <div class="note-form-head">
+                    <h1>New Note</h1>
+                </div>
+                <form id="note-form">
+
+            <textarea class="note-content" rows="10" cols="30"></textarea>
+            <button type="submit" form="note-form" class="submit-note-form">ADD</button>
+        </form>
+    </div>
+    `)
+}
 
 function handleAddNoteClick() {
-    // do something
+    $("main").on("click", ".add-note-button", function() {
+        handleDisplayNoteForm();
+    });
 }
 
 function handleEditNoteClick() {
@@ -513,6 +521,10 @@ function handleEditNoteClick() {
 }
 
 function handleDeleteNoteClick() {
+    // do something
+}
+
+function handleSubmitNote() {
     // do something
 }
 
