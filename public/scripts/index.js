@@ -160,12 +160,14 @@ function generateUsername() {
 }
 
 function generateNotes(data) {
-    const currentUserIndex = data.users.findIndex( user => user.username === loadUsername);
-    const currentUserNotes = data.users[currentUserIndex].notes
-    console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
+    const currentUserIndex = data.users.findIndex( user => user.username === loadUsername());
+    //console.log(`this is the currentuser index: ${currentUserIndex}`);
+    const currentUserNotes = data.users[currentUserIndex].notes; // returns array of objects
+    //console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
+    const currentDish = loadCurrentDish();
     if (currentUserNotes) {
         for (let i=0; i<currentUserNotes.length; i++) {
-            if (currentUserNotes[i].id === store.currentDish) {
+            if (currentUserNotes[i].dish == currentDish) {
                 $(".notes-contents").append(`
                 <div index="${i}">${currentUserNotes[i].content}</div>
                 `
@@ -250,8 +252,8 @@ function handleDisplayRecipes() {
 
 function handleDisplayNotes() {
     //if user is logged in
-    if (store.authToken) {
-        $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section><button class="add-note-button"></div>');
+    if (loadUsername()) {
+        $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section"><button class="add-note-button">+</button></div>');
         getNotes(generateNotes);
     }
 }
@@ -376,12 +378,15 @@ function handleLogoutDisplay() {
 
 function handleLogoutSubmit() {
     $(".nav-item-login").on("click", function() {
-        // destroy user data persistence
-        clearUsername();
-        clearAuthToken();
-        clearCurrentDish();
-        location.reload();
+        handleLogout();
     });
+}
+
+function handleLogout() {
+    clearUsername();
+    clearAuthToken();
+    clearCurrentDish();
+    location.reload();
 }
 
 function handleSignupSubmit() {
@@ -488,6 +493,8 @@ function handleRecipeSubmit(callbackFn) {
             directions: recipeForm.find(".recipe-directions").val(),
             author: loadUsername()
         };
+
+        // add an id to recipe with newRecipe
 
         console.log(newRecipe);
 
