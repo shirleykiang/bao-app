@@ -18,7 +18,7 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  const stringFields = ["username", "password", "fullname"];
+  const stringFields = ["username", "password"];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== "string"
   );
@@ -50,7 +50,7 @@ router.post("/", (req, res, next) => {
   // bcrypt truncates after 72 characters, so let's not give the illusion
   // of security by storing extra **unused** info
   const sizedFields = {
-    username: { min: 1 },
+    username: { min: 3 },
     password: { min: 8, max: 72 }
   };
 
@@ -78,16 +78,14 @@ router.post("/", (req, res, next) => {
   }
 
   // Username and password were validated as pre-trimmed
-  let { username, password, fullname = "" } = req.body;
-  fullname = fullname.trim();
+  let { username, password = "" } = req.body;
 
   // Remove explicit hashPassword if using pre-save middleware
   return User.hashPassword(password)
     .then(digest => {
       const newUser = {
         username,
-        password: digest,
-        fullname
+        password: digest
       };
       return User.create(newUser);
     })
