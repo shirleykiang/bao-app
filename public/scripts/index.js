@@ -5,24 +5,7 @@
 //     {
 //         "id": 1111111,
 //         "username": "currentshirleykiang",
-//         "password": "secretpassword",
-//         "notes": [
-//             {
-//                 "id": 1111111,
-//                 "dish": 1111111,
-//                 "content": "Made this on 5/20, add spicy bean sauce gradually"
-//             }, 
-//             {
-//                 "id": 1111112,
-//                 "dish": 1111112,
-//                 "content": "Made this on 5/20, add spicy bean sauce gradually"
-//             }, 
-//             {
-//                 "id": 1111113,
-//                 "dish": 1111113,
-//                 "content": "Made this on 5/29, add spicy bean sauce gradually"
-//             }
-//         ]
+//         "password": "secretpassword"
 //     }, 
 //     {
 //         "id": 1111112,
@@ -64,7 +47,27 @@
 //         ]
 //     }
 // ]
+// 
+// MOCK NOTES DATA added 6/26/2018
 
+//         [
+//             {
+//                 "userId": 1111111,
+//                 "dish": 1111111,
+//                 "content": "Made this on 5/20, add spicy bean sauce gradually"
+//             }, 
+//             {
+//                 "userId": 1111112,
+//                 "dish": 1111112,
+//                 "content": "Made this on 5/20, add spicy bean sauce gradually"
+//             }, 
+//             {
+//                 "userId": 1111113,
+//                 "dish": 1111113,
+//                 "content": "Made this on 5/29, add spicy bean sauce gradually"
+//             }
+//         ]
+// MOCK RECIPE DATA
 // [
 //     {
 //         "id": 1111111,
@@ -150,19 +153,25 @@ function generateNotes(data) {
 }
 
 
+// refactor, make ajax get call to /api/users 
+// api.details(/api/users)
 // HELPER FUNCTIONS
 function getUser() {
-    setTimeout(function() {
-        callbackFn(MOCK_USERS)
-    }, 1);
+    
+    // setTimeout(function() {
+    //     callbackFn(MOCK_USERS)
+    // }, 1);
+    api.details('/api/users');
 }
 
 function getRecipes(callbackFn) {
     console.log('getRecipes ran');
     console.log(`This is the db: ${MOCK_RECIPES}`);
-    setTimeout(function() {
-        callbackFn(MOCK_RECIPES)
-    }, 1);
+
+    api.details('api/recipes');
+    // setTimeout(function() {
+    //     callbackFn(MOCK_RECIPES)
+    // }, 1);
 }
 
 function getRecipeIndexFromClick(target) {

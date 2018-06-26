@@ -15,7 +15,7 @@ const recipeSchema = new mongoose.Schema({
 
 recipeSchema.set("timestamps", true);
 
-recipeSchema.set("toObject", { 
+recipeSchema.set("toObject", { //what does this code do? 
   transform: function (doc, ret) {
     ret.id = ret._id;
     delete ret._id;
