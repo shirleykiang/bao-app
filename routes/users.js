@@ -101,4 +101,80 @@ router.post("/", (req, res, next) => {
     });
 });
 
+// TAKEN FROM NOTEFUL   DON'T KNOW how i should update my notes... didn't add that in my client side
+/* ========== PUT/UPDATE A SINGLE NOTE ========== */
+router.put("/:id", (req, res, next) => {
+  const { id } = req.params;
+  const { title, content, folderId, tags } = req.body;
+  const userId = req.user.id;
+  const updateNote = { title, content, userId, folderId, tags };
+
+  /***** Never trust users - validate input *****/
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error("The `id` is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  if (!title) {
+    const err = new Error("Missing `title` in request body");
+    err.status = 400;
+    return next(err);
+  }
+
+  if (mongoose.Types.ObjectId.isValid(folderId)) {
+    updateNote.folderId = folderId;
+  }
+
+  Promise.all([
+    validateFolderId(folderId, userId),
+    validateTagIds(tags, userId)
+  ])
+    .then(() => {
+      return Note.findByIdAndUpdate(id, updateNote, { new: true })
+        .populate("tags");
+    })
+    .then(result => {
+      if (result) {
+        res.json(result);
+      } else {
+        next();
+      }
+    })
+    .catch(err => {
+      if (err === "InvalidFolder") {
+        err = new Error("The folder is not valid");
+        err.status = 400;
+      }
+      if (err === "InvalidTag") {
+        err = new Error("The tag is not valid");
+        err.status = 400;
+      }
+      next(err);
+    });
+});
+
+
+// TAKEN FROM NOTEFUL 
+/* ========== DELETE/REMOVE A SINGLE ITEM ========== */
+router.delete("/:id", (req, res, next) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  /***** Never trust users - validate input *****/
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error("The `id` is not valid");
+    err.status = 400;
+    return next(err);
+  }
+
+  Note.findOneAndRemove({ _id: id, userId })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 module.exports = router;

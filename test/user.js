@@ -13,7 +13,7 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe("Noteful API - Users", function () {
+describe("Bao API - Users", function () {
   const username = "exampleUser";
   const password = "examplePass";
 
@@ -209,3 +209,7 @@ describe("POST /api/users", function () {
     });
 
   });
+
+  
+
+});
