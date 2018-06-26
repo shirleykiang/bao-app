@@ -1,10 +1,18 @@
 "use strict";
 
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
+const localAuth = require("../middleware/local-auth");
+const jwtAuth = require("../middleware/jwt-auth");
+
+const { JWT_SECRET, JWT_EXPIRY } = require("../config");
+
 const router = express.Router();
+
+const createAuthToken = require("../utils/auth");
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post("/", (req, res, next) => {
@@ -89,10 +97,15 @@ router.post("/", (req, res, next) => {
       };
       return User.create(newUser);
     })
-    .then(result => {
-      return res.status(201).location(`/api/users/${result.id}`).json(result);
+    .then(user => {
+      return createAuthToken(user);
+    })
+    .then(token => {
+      console.log(token);
+      return res.status(201).json({ token });
     })
     .catch(err => {
+      console.log(err);
       if (err.code === 11000) {
         err = new Error("The username already exists");
         err.status = 400;

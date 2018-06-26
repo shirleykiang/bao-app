@@ -5,13 +5,13 @@ const mongoose = require("mongoose");
 
 // ===== Define UserSchema & UserModel =====
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  username: { type: String, required: true , unique: true },
   password: { type: String, required: true }
 });
 
 userSchema.set("timestamps", true);
 
-userSchema.set("toObject", {
+userSchema.set("toObject", { //similar to serialize
   transform: function (doc, ret) {
     ret.id = ret._id; // QUESTION WHAT IS RET?
     delete ret._id;

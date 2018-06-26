@@ -31,7 +31,8 @@ function jwtAuth(req, res, next) {
       return next(err);
     }
 
-    req.user = decoded.user;
+    req.user = decoded.user; // THIS IS KEY. it creates a user key on all the requests... so now you can access the user 
+    // info on all the requests by doing req.user and all the stuff about the user like req.user.id
     next();
   });
 }

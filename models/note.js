@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 
 // ===== Define UserSchema & UserModel =====
 const noteSchema = new mongoose.Schema({
-  userId: { type: Number, required: true, ref: "User" }, // don't know what ref's are for
-  dishId: { type: Number, required: true, ref: "Dish" }, 
-  content: { type: String, required: true, ref: "Username" }, // don't know what ref's are for
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }, // don't know what ref's are for
+  dishId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Dish" }, 
+  content: { type: String, required: true }, // don't know what ref's are for
 });
 
 noteSchema.set("timestamps", true);

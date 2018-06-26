@@ -30,10 +30,10 @@ app.use(express.json());
 // Public Routers
 app.use("/api", authRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/recipes", recipesRouter);
+// app.use("/api/recipes", recipesRouter);
 
-Protected Routers
-app.use("/api/notes", jwtAuth, notesRouter);
+// Protected Routers
+// app.use("/api/notes", jwtAuth, notesRouter);
 
 // Custom 404 Not Found route handler
 app.use((req, res, next) => {
