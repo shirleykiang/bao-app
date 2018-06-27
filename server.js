@@ -9,7 +9,7 @@ const db = require("./db/mongoose");
 const { PORT } = require("./config");
 const jwtAuth = require("./middleware/jwt-auth");
 
-// const recipesRouter = require("./routes/recipes");
+const recipesRouter = require("./routes/recipes");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 
@@ -30,7 +30,7 @@ app.use(express.json());
 // Public Routers
 app.use("/api", authRouter);
 app.use("/api/users", usersRouter);
-// app.use("/api/recipes", recipesRouter);
+app.use("/api/recipes", recipesRouter);
 
 // Protected Routers
 // app.use("/api/notes", jwtAuth, notesRouter);
