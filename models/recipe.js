@@ -6,16 +6,17 @@ const recipeSchema = new mongoose.Schema({
   name: { type: String, required: true/* , unique: true */ },
   category: { type: String, required: true },
   servings: { type: Number, required: true },
-  image: [{ type: String, ref: "Image" }], // IS THIS PROPER WAY TO ADD IMAGE
-  ingredients: [{ type: Array, ref: "Ingredients" }],
-  directions: [{ type: Array, ref: "Directions" }],
+  image: { type: String }, // IS THIS PROPER WAY TO ADD IMAGE
+  ingredients: [{ type: Array, required: true}],
+  directions: [{ type: Array, required: true }],
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
+// reimplement when local storage gets integrated and can access 
   
 });
 
 recipeSchema.set("timestamps", true);
 
-recipeSchema.set("toObject", { //what does this code do? 
+recipeSchema.set("toObject", { 
   transform: function (doc, ret) {
     ret.id = ret._id;
     delete ret._id;

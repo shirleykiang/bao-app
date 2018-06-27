@@ -12,6 +12,7 @@ const jwtAuth = require("./middleware/jwt-auth");
 const recipesRouter = require("./routes/recipes");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const notesRouter = require("./routes/notes");
 
 // Create an Express application
 const app = express();
@@ -27,13 +28,20 @@ app.use(express.static("public"));
 // Parse request body
 app.use(express.json());
 
+
 // Public Routers
 app.use("/api", authRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/recipes", recipesRouter);
+
+// Conditional Routers
+if (app.post("/api/recipes")) {
+    app.use("/api/recipes", jwtAuth, recipesRouter);
+} else if (app.get("/api/recipes")) {
+    app.use("/api/recipes", recipesRouter);
+}
 
 // Protected Routers
-// app.use("/api/notes", jwtAuth, notesRouter);
+app.use("/api/notes", jwtAuth, notesRouter);
 
 // Custom 404 Not Found route handler
 app.use((req, res, next) => {

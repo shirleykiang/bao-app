@@ -5,19 +5,19 @@ const mongoose = require("mongoose");
 
 // ===== Define UserSchema & UserModel =====
 const noteSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }, // don't know what ref's are for
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }, 
   dishId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Dish" }, 
-  content: { type: String, required: true }, // don't know what ref's are for
+  content: { type: String, required: true }, 
 });
 
 noteSchema.set("timestamps", true);
 
 noteSchema.set("toObject", {
   transform: function (doc, ret) {
-    ret.id = ret._id; // QUESTION WHAT IS RET?
+    ret.id = ret._id; 
     delete ret._id;
     delete ret.__v;
-    delete ret.password; // why delete all of these? 
+    delete ret.password; 
   }
 });
 

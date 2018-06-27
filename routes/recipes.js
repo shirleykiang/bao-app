@@ -39,43 +39,33 @@ router.get("/", (req, res, next) => {
 });
 
 // /* ========== GET/READ A SINGLE ITEM ========== */
-// router.get("/:id", (req, res, next) => {
-//   const { id } = req.params;
-//   const userId = req.user.id;
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+  //const userId = req.user.id;
 
-//   /***** Never trust users - validate input *****/
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     const err = new Error("The `id` is not valid");
-//     err.status = 400;
-//     return next(err);
-//   }
-
-//   Note.findOne({ _id: id, userId })
-//     .populate("tags")
-//     .then(result => {
-//       if (result) {
-//         res.json(result);
-//       } else {
-//         next();
-//       }
-//     })
-//     .catch(err => {
-//       next(err);
-//     });
-// });
+  Recipe.findOne({ _id: id })
+    .then(result => 
+        res.json(result)
+    )
+    .catch(err => {
+      next(err);
+    });
+});
 
 /* ========== POST/CREATE AN ITEM ========== */
 router.post("/", (req, res, next) => {
   const { name, category, servings, image, ingredients, directions } = req.body;
+//   console.log(req.body);
   const userId = req.user.id; // how to return json so that userid will be accessible? 
-  const newRecipe = { name, category, servings, image, ingredients, directions };
+  console.log(req.user.id);
+  const newRecipe = { name, category, servings, image, ingredients, directions , userId };
 
-  return Promise.all() //don't know if should use promise
-    .then(() => Recipe.create(newRecipe))
+  Recipe.create(newRecipe)
     .then(result => {
       res.status(201).json(result);
     })
     .catch(err => {
+        console.error(err);
         next(err);
       });
 });
