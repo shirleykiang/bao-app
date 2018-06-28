@@ -1,20 +1,14 @@
 "use strict";
 
 const express = require("express");
-// const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
-
-// const localAuth = require("../middleware/local-auth");
-// const jwtAuth = require("../middleware/jwt-auth");
-
-// const { JWT_SECRET, JWT_EXPIRY } = require("../config");
 
 const router = express.Router();
 
 const createAuthToken = require("../utils/auth");
 
-/* ========== POST/CREATE AN ITEM ========== */
+
 router.post("/", (req, res, next) => {
 
   const requiredFields = ["username", "password"];
@@ -37,8 +31,6 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  // bcrypt truncates after 72 characters, so let's not give the illusion
-  // of security by storing extra **unused** info
   const sizedFields = {
     username: { min: 3 },
     password: { min: 8, max: 72 }
@@ -67,10 +59,9 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  // Username and password were validated as pre-trimmed
   let { username, password = "" } = req.body;
 
-  // Remove explicit hashPassword if using pre-save middleware
+
   return User.hashPassword(password)
     .then(digest => {
       const newUser = {

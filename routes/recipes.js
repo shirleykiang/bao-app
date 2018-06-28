@@ -8,9 +8,7 @@ const Recipe = require("../models/recipe");
 const router = express.Router();
 
 
-/* ========== GET/READ ALL ITEMS ========== */
 router.get("/", (req, res, next) => {
-//   const userId = req.user.id;
 
   Recipe.find()
     .then(results => {
@@ -21,10 +19,8 @@ router.get("/", (req, res, next) => {
     });
 });
 
-// /* ========== GET/READ A SINGLE ITEM ========== */
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  //const userId = req.user.id;
 
   Recipe.findOne({ _id: id })
     .then(result => 

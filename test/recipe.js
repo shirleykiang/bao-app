@@ -37,8 +37,6 @@ describe("Bao API - Recipes", function () {
       .then(([users]) => {
         user = users[0];
         token = jwt.sign({ user }, JWT_SECRET);
-
-        // token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
       });
   });
 
@@ -50,14 +48,13 @@ describe("Bao API - Recipes", function () {
     return db.disconnect();
   });
 
-  // working
+
   describe("GET /api/recipes", function () {
 
     it("should return the correct number of recipes", function () {
       const dbPromise = Recipe.find();
       const apiPromise = chai.request(app)
         .get("/api/recipes");
-        //.set("Authorization", `Bearer ${token}`);
 
       return Promise.all([dbPromise, apiPromise])
         .then(([data, res]) => {

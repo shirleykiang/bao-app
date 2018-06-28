@@ -3,7 +3,7 @@
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
-// ===== Define UserSchema & UserModel =====
+
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true , unique: true },
   password: { type: String, required: true }
@@ -11,12 +11,12 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set("timestamps", true);
 
-userSchema.set("toObject", { //similar to serialize
+userSchema.set("toObject", { 
   transform: function (doc, ret) {
-    ret.id = ret._id; // QUESTION WHAT IS RET?
+    ret.id = ret._id; 
     delete ret._id;
     delete ret.__v;
-    delete ret.password; // why delete all of these? 
+    delete ret.password;
   }
 });
 

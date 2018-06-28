@@ -3,14 +3,13 @@
 const mongoose = require("mongoose");
 
 const recipeSchema = new mongoose.Schema({
-  name: { type: String, required: true/* , unique: true */ },
+  name: { type: String, required: true },
   category: { type: String, required: true },
   servings: { type: Number, required: true },
-  image: { type: String }, // IS THIS PROPER WAY TO ADD IMAGE
+  image: { type: String }, 
   ingredients: [{ type: Array, required: true}],
   directions: [{ type: Array, required: true }],
   author: { type: mongoose.Schema.Types.ObjectId, required: true }
-// reimplement when local storage gets integrated and can access 
   
 });
 

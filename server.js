@@ -35,13 +35,6 @@ app.use("/api", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/recipes", recipesRouter);
 
-// Conditional Routers
-// if (app.post("/api/recipes")) {
-//     app.use("/api/recipes", jwtAuth, recipesRouter);
-// } else if (app.get("/api/recipes")) {
-//     app.use("/api/recipes", recipesRouter);
-// }
-
 // Protected Routers
 app.use("/api/notes", jwtAuth, notesRouter);
 app.use("/api/recipes", jwtAuth, recipesProtectedRouter);

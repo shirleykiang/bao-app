@@ -3,7 +3,6 @@
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
-// ===== Define UserSchema & UserModel =====
 const noteSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }, 
   dishId: { type: mongoose.Schema.Types.ObjectId, required: true }, 

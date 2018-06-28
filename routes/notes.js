@@ -4,14 +4,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const Note = require("../models/note");
-// const User = require("../models/user"); // don't know if I need this
-
 const router = express.Router();
 
 
-/* ========== GET/READ ALL ITEMS ========== */
 router.get("/", (req, res, next) => {
-  //const { searchTerm, folderId, tagId } = req.query;
   const userId = req.user.id;
 
   let filter = { userId };
@@ -25,11 +21,9 @@ router.get("/", (req, res, next) => {
     });
 });
 
-/* ========== GET/READ A SINGLE ITEM ========== */
+
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
-//   const userId = req.user.id;
-
   Note.findOne({ _id: id })
     .then(result => 
         res.json(result)
@@ -39,7 +33,7 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-/* ========== POST/CREATE AN ITEM ========== */
+
 router.post("/", (req, res, next) => {
   const { dishId, content } = req.body;
   const userId = req.user.id;
@@ -54,7 +48,7 @@ router.post("/", (req, res, next) => {
     );
 });
 
-/* ========== PUT/UPDATE A SINGLE ITEM ========== */
+
 router.put("/:id", (req, res, next) => {
   const { id } = req.params;
   const { dishId, content } = req.body;
@@ -71,7 +65,7 @@ Note.findByIdAndUpdate(id, updateNote, { new: true })
     });
 });
 
-/* ========== DELETE/REMOVE A SINGLE ITEM ========== */
+
 router.delete("/:id", (req, res, next) => {
   const { id } = req.params;
 
