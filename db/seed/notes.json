@@ -2,25 +2,25 @@
     {
         "_id": "222222222222222222222200",
         "userId": "333333333333333333333300",
-        "dish": "000000000000000000000000",
+        "dishId": "000000000000000000000000",
         "content": "Made this on 5/20, add spicy bean sauce gradually"
     }, 
     {
         "_id": "222222222222222222222201",
         "userId": "333333333333333333333300",
-        "dish": "000000000000000000000000",
+        "dishId": "000000000000000000000000",
         "content": "Made this on 5/20, add spicy bean sauce gradually"
     }, 
     {
         "_id": "222222222222222222222202",
         "userId": "333333333333333333333300",
-        "dish": "000000000000000000000000",
+        "dishId": "000000000000000000000000",
         "content": "Made this on 5/29, add spicy bean sauce gradually"
     },
     {
         "_id": "222222222222222222222203",
         "userId": "333333333333333333333300",
-        "dish": "000000000000000000000000",
+        "dishId": "000000000000000000000000",
         "content": "Made this on 5/29, add spicy bean sauce gradually"
     }
 ]

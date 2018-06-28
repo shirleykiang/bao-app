@@ -87,7 +87,6 @@ describe("Bao API - Recipes", function () {
     });
   });
 
-// //NEED TO IMPLEMENT
   describe("GET /api/recipes/:id", function () {
 
     it("should return correct recipe", function () {
