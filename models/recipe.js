@@ -9,7 +9,7 @@ const recipeSchema = new mongoose.Schema({
   image: { type: String }, // IS THIS PROPER WAY TO ADD IMAGE
   ingredients: [{ type: Array, required: true}],
   directions: [{ type: Array, required: true }],
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
+  author: { type: mongoose.Schema.Types.ObjectId, required: true }
 // reimplement when local storage gets integrated and can access 
   
 });
