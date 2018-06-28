@@ -10,7 +10,7 @@ const createAuthToken = require("../utils/auth");
 
 
 router.post("/", (req, res, next) => {
-
+  console.log('post request made to api/users');
   const requiredFields = ["username", "password"];
   const missingField = requiredFields.find(field => !(field in req.body));
 
