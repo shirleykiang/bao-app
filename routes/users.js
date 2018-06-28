@@ -1,14 +1,14 @@
 "use strict";
 
 const express = require("express");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
-const localAuth = require("../middleware/local-auth");
-const jwtAuth = require("../middleware/jwt-auth");
+// const localAuth = require("../middleware/local-auth");
+// const jwtAuth = require("../middleware/jwt-auth");
 
-const { JWT_SECRET, JWT_EXPIRY } = require("../config");
+// const { JWT_SECRET, JWT_EXPIRY } = require("../config");
 
 const router = express.Router();
 
@@ -26,24 +26,6 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  const stringFields = ["username", "password"];
-  const nonStringField = stringFields.find(
-    field => field in req.body && typeof req.body[field] !== "string"
-  );
-
-  if (nonStringField) {
-    const err = new Error(`Field: '${nonStringField}' must be type String`);
-    err.status = 422;
-    return next(err);
-  }
-
-  // If the username and password aren't trimmed we give an error.  Users might
-  // expect that these will work without trimming (i.e. they want the password
-  // "foobar ", including the space at the end).  We need to reject such values
-  // explicitly so the users know what's happening, rather than silently
-  // trimming them and expecting the user to understand.
-  // We'll silently trim the other fields, because they aren't credentials used
-  // to log in, so it's less of a problem.
   const explicityTrimmedFields = ["username", "password"];
   const nonTrimmedField = explicityTrimmedFields.find(
     field => req.body[field].trim() !== req.body[field]
