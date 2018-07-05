@@ -85,12 +85,12 @@ function getOneRecipe(recipeIndex) {
 }
 
 function handleDisplayOneRecipe(recipe) {
-    console.log('handleDisplayOneRecipe running');
+    // console.log('handleDisplayOneRecipe running');
     let recipe_object = recipe;
-    console.log(`this is the displaying recipe object: ${recipe_object}`);
+    // console.log(`this is the displaying recipe object: ${recipe_object}`);
     clearCurrentDish();
     saveCurrentDish(recipe_object.id);
-    console.log(`this is the id of the currentdish: ${loadCurrentDish()}`);
+    console.log(`this is the id of the current dish showing: ${loadCurrentDish()}`);
     $('main').html(`
         <div class="recipe-page">
             <div class="recipe-page-title">
@@ -380,31 +380,31 @@ function handleRecipeSubmit() {
     });
 }
 
-// function handleDisplayNoteForm() {
-//     console.log(`handleDiplsayNoteForm running`);
-//     $("main").html(`
-//         <div class="note-form-page">
-//             <div class="note-form-contents">
-//                 <div class="note-form-head">
-//                     <h1>New Note</h1>
-//                 </div>
-//                 <form id="note-form">
-//                     <textarea class="note-content" rows="10" cols="30"></textarea>
-//                     <button type="submit" form="note-form" class="submit-note-form">ADD</button>
-//                 </form>
-//     </div>
-//     `);
-// }
+function handleDisplayNoteForm() {
+    console.log(`handleDisplayNoteForm running`);
+    $("main").html(`
+        <div class="note-form-page">
+            <div class="note-form-contents">
+                <div class="note-form-head">
+                    <h1>New Note</h1>
+                </div>
+                <form id="note-form">
+                    <textarea class="note-content" rows="10" cols="30"></textarea>
+                    <button type="submit" form="note-form" class="submit-note-form">ADD</button>
+                </form>
+    </div>
+    `);
+}
 
-// function handleAddNoteClick() {
-//     console.log('handleAddNoteClick running');
-//     $("main").unbind().on("click", ".add-note-button", function() {
+function handleAddNoteClick() {
+    console.log('handleAddNoteClick running');
+    $("main").unbind().on("click", ".add-note-button", function() {
 
-//         console.log('user click add note button');
-//         handleDisplayNoteForm();
-//         handleSubmitNote();
-//     });
-// }
+        console.log('user clicked add note button');
+        handleDisplayNoteForm();
+        handleSubmitNote();
+    });
+}
 
 // function handleEditNoteClick() {
 //     // do something
@@ -414,31 +414,32 @@ function handleRecipeSubmit() {
 //     // do something
 // }
 
-// function handleSubmitNote() {
-//     console.log('handlesubmitnote running');
-//     $("main").on("submit", "#note-form", function(event) {
-//         console.log('user submitted new note to note form');
-//         event.preventDefault();
-//         const currentUserIndex = MOCK_USERS.users.findIndex( user => user.username === loadUsername());
-//         const currentDishIndex = MOCK_RECIPES.recipes.findIndex( recipe => recipe.id === Number(loadCurrentDish()));
-//         //console.log(`this is current dish index: ${currentDishIndex}`);
-//         const noteContent = $(event.currentTarget).find("textarea").val();
-//         //console.log(`this is the usernote: ${noteContent}`);
-//         const newNote = {
-//             id: null, // somehow add id to note... id is useful for deleting later on 
-//             dish: loadCurrentDish(),
-//             content: noteContent
-//         };
+function handleSubmitNote() {
+    console.log('handlesubmitnote running');
+    $("main").on("submit", "#note-form", function(event) {
+        console.log('user submitted new note to note form');
+        event.preventDefault();
+        const dishId = loadCurrentDish();
+        console.log(`this is current dishId when i submit note: ${dishId}`);
+        const content = $(event.currentTarget).find("textarea").val();
+        //console.log(`this is the usernote: ${noteContent}`);
+        const newNote = {
+            dishId: dishId,
+            content: content
+        };
+        api.create("/api/notes", newNote)
+        .then(response => {
+            console.log(response);
+            console.log(`/api/recipes/${dishId}`);
+            return api.details(`/api/recipes/${dishId}`)
+        })
+        .then(response => {
+            console.log(response);
+            handleDisplayOneRecipe(response);
+        });
 
-//         // add note content to db
-//         MOCK_USERS.users[currentUserIndex].notes.push(newNote); 
-
-//         // console.log(newNote);
-//         // console.log(MOCK_USERS.users[currentUserIndex].notes);
-//         handleDisplayOneRecipe(currentDishIndex);
-
-//     })
-// }
+    })
+}
 
 function bindEventListeners() {
     // console.log('page has loaded');

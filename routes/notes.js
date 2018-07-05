@@ -24,7 +24,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  Note.findOne({ _id: id })
+  Note.findOne({ id })
     .then(result => 
         res.json(result)
     )
@@ -35,7 +35,8 @@ router.get("/:id", (req, res, next) => {
 
 
 router.post("/", (req, res, next) => {
-  const { dishId, userId, content } = req.body;
+  const { dishId, content } = req.body;
+  const userId = req.user.id;
   const newNote = { dishId, userId, content };
 
   Note.create(newNote)

@@ -21,11 +21,12 @@ router.get("/", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
-
+  console.log(`this is your id= ${id}`);
   Recipe.findOne({ _id: id })
-    .then(result => 
-        res.json(result)
-    )
+    .then(result => {
+      console.log(`found the matching recipe ${result}`);
+        res.json(result);
+    })
     .catch(err => {
       next(err);
     });
