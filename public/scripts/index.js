@@ -245,14 +245,8 @@ function handleLoginSubmit() {
     });
 }
 
-function handleLogoutDisplay() {
-    handleLogoutSubmit();
-    console.log('handleLogoutDisplay ran');
-}
 
-
-
-function handleLogoutSubmit() {
+function handleLogOutDisplay() {
     if (loadUsername()) {
         $(".nav-item-login").html('LOG OUT'); 
         $(".nav-item-login").on("click", function() {
@@ -342,8 +336,8 @@ function handleDisplayRecipeForm() {
                 <label for="recipe-directions">Directions</label>
                 <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
                 
-                <label for="recipe-image">Directions</label>
-                <input type="text" id="recipe-image" placeholder="Image url" value required>
+                <label for="recipe-image">Image</label>
+                <input type="text" id="recipe-image" placeholder="Image url" class="recipe-image" value required>
             
                 <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
             </form>
@@ -457,12 +451,12 @@ function handleRecipeSubmit() {
 function bindEventListeners() {
     // console.log('page has loaded');
     handleFormToggle();
-    handleLoginClick();
-    // handleLoginSubmit();
-    // handleLogoutSubmit();
     handleRecipeClick();
     handleDisplayRecipes();
     handleCreateRecipe();
+    handleLoginClick();
+    handleLoginSubmit();
+    handleLogOutDisplay();
 
     // run all the functions from above
 }

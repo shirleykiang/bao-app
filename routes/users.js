@@ -81,7 +81,7 @@ router.post("/", (req, res, next) => {
     })
     .then(token => {
       console.log(token);
-      return res.status(201).json({ token });
+      return res.status(201).json( token );
     })
     .catch(err => {
       console.log(err);
