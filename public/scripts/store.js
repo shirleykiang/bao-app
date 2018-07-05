@@ -54,13 +54,3 @@ function saveUsername(username) {
         localStorage.removeItem('username');
     } catch (e) {}
 };
-
-//old code
-// const store = (function () {
-
-//     return {
-//         authToken: "fake_token",
-//         username: "",
-//         currentDish: null
-//     };
-// }());

@@ -48,7 +48,7 @@ function getRecipes(callbackFn) {
 
     api.details('api/recipes')
     .then(recipes =>
-    generateRecipes(recipes));
+    callbackFn(recipes));
 }
 
 function getRecipeIndexFromClick(target) {
@@ -70,7 +70,7 @@ function getRecipeIndexFromClick(target) {
 function handleRecipeClick() {
     //console.log('handlerRecipeClick ran');
     $(".recipes-index").on("click", ".recipe-image", function(event) {
-        //console.log('clicked on recipe-image');
+        console.log('clicked on recipe-image');
         let recipe_index = getRecipeIndexFromClick($(event.target));
 
         console.log(`this is the index: ${recipe_index}`);
@@ -209,46 +209,48 @@ function handleFormToggle() {
 });
 }
 
-// function handleLoginSubmit() {
-//     console.log('handle login submit running');
-//     $("body").on("submit", "#session-form", function(event) {
-//         event.preventDefault();
-//         const userForm = $(event.currentTarget);
-//         const usernameInput = userForm.find(".username-entry").val();
-//         console.log(`second time username input: ${usernameInput}`);
-//         const passwordInput = userForm.find(".password-entry").val();
-//         console.log(`this is the password inputted: ${passwordInput}`);
-//         const existingUser = MOCK_USERS.users.find(user => user.username === usernameInput);
-//         //console.log(`testing if ${passwordInput} equals ${existingUser.password}`);
-//         // if usernameinput doesn't exist OR password doesn't match password of username input 
-//         // empty out form and tell them to try again
-//         if (existingUser) {
-//             if (passwordInput === existingUser.password) {
-//                 console.log('you got the correct combo');
-//                 saveUsername(existingUser.username);
-//                 location.reload(); // is there a better way to bring back to home page? 
-//                 // LOG EM IN, redirect them to the home page
-//                 //handleLogoutDisplay();
-//                 // turn log in button into log out button
-//                 // store their username and id in local storage 
-//                 // give em a token
-//             } else {
-//                 console.log('wrong password sucka');
-//                 // return  message saying wrong username or password. try again. 
-//                 // return reset log in form but username still there
-//             }
-//         } else {
-//             //if the username doesn't even exist
-//             console.log("wrong username or password. try again.");
-//         }
+function handleLoginSubmit() {
+    console.log('handle login submit running');
+    $("body").on("submit", "#session-form", function(event) {
+        event.preventDefault();
+        const userForm = $(event.currentTarget);
+        const usernameInput = userForm.find(".username-entry").val();
+        console.log(`second time username input: ${usernameInput}`);
+        const passwordInput = userForm.find(".password-entry").val();
+        console.log(`this is the password inputted: ${passwordInput}`);
+        const existingUser = MOCK_USERS.users.find(user => user.username === usernameInput);
+        //console.log(`testing if ${passwordInput} equals ${existingUser.password}`);
+        // if usernameinput doesn't exist OR password doesn't match password of username input 
+        // empty out form and tell them to try again
+        if (existingUser) {
+            if (passwordInput === existingUser.password) {
+                console.log('you got the correct combo');
+                saveUsername(existingUser.username);
+                location.reload(); // is there a better way to bring back to home page? 
+                // LOG EM IN, redirect them to the home page
+                //handleLogoutDisplay();
+                // turn log in button into log out button
+                // store their username and id in local storage 
+                // give em a token
+            } else {
+                console.log('wrong password sucka');
+                // return  message saying wrong username or password. try again. 
+                // return reset log in form but username still there
+            }
+        } else {
+            //if the username doesn't even exist
+            console.log("wrong username or password. try again.");
+        }
         
-//     });
-// }
+    });
+}
 
-// function handleLogoutDisplay() {
-//     handleLogoutSubmit();
-//     console.log('handleLogoutDisplay ran');
-// }
+function handleLogoutDisplay() {
+    handleLogoutSubmit();
+    console.log('handleLogoutDisplay ran');
+}
+
+
 
 function handleLogoutSubmit() {
     if (loadUsername()) {
@@ -273,21 +275,26 @@ function handleSignupSubmit() {
         
         const userForm = $(event.currentTarget);
         const username = userForm.find(".username-entry").val();
-        const password = userForm.find(".username-password").val();
+        const password = userForm.find(".password-entry").val();
+        console.log(username);
+        console.log(password);
         // const existingUser = checkExistingUser(getUsers()).find(user => user.username === username);
-        const newUser = { username, password };
+        const newUser = { username: username, password: password };
         
+        //make sure there is code that checks for existing users in api
         console.log(`this is the new user: ${newUser}`);
 
         // if (!existingUser) {
             
         api.create("/api/users", newUser)
-        .then(token => saveAuthToken(token));
+        .then(token => {
+            saveAuthToken(token);
+            saveUsername(username);
+            location.reload();
+        });
         // .catch(handleErrors); 
 
-            // add them into db , assign them a id and expiration and give em a token 
-        saveUsername(username);
-            // redirect them back to homepage 
+        // redirect them back to homepage 
         // } else {
         //     console.log('this username is already taken, please try again');
         //     // empty out password input but keep username input  
@@ -295,94 +302,97 @@ function handleSignupSubmit() {
     });
 }
 
-// function handleCreateRecipe() {
+function handleCreateRecipe() {
 
-//     $(".nav-item-create").on("click", function() {
-//         if (!(loadUsername())) {
-//             console.log('there is no user logged in currently');
-//             handleDisplayLoginPage();
-//         } else {
-//             handleDisplayRecipeForm();
-//         }
-//     });
-// }
+    $(".nav-item-create").on("click", function() {
+        if (!(loadUsername())) {
+            console.log('there is no user logged in currently');
+            handleDisplayLoginPage();
+        } else {
+            handleDisplayRecipeForm();
+        }
+    });
+}
 
-// function handleDisplayRecipeForm() {
-//     $("main").html(`
-//         <div class="recipe-form-page">
-//             <div class="recipe-form-contents">
-//                 <div class="recipe-form-head">
-//                     <h1>New Recipe</h1>
-//                 </div>
-//             </div>
-//             <form id="recipe-form">
+function handleDisplayRecipeForm() {
+    $("main").html(`
+        <div class="recipe-form-page">
+            <div class="recipe-form-contents">
+                <div class="recipe-form-head">
+                    <h1>New Recipe</h1>
+                </div>
+            </div>
+            <form id="recipe-form">
 
-//                 <label for="recipe-name">Dish Name</label>
-//                 <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
+                <label for="recipe-name">Dish Name</label>
+                <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
             
-//                 <label for="recipe-category">Category</label>
-//                 <select id="recipe-category" class="recipe-category" value required>
-//                     <option value="Food">Food</option>
-//                     <option value="Dessert">Dessert</option>
-//                 </select>
+                <label for="recipe-category">Category</label>
+                <select id="recipe-category" class="recipe-category" value required>
+                    <option value="Food">Food</option>
+                    <option value="Dessert">Dessert</option>
+                </select>
 
-//                 <label for="recipe-servings">Servings</label>
-//                 <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
+                <label for="recipe-servings">Servings</label>
+                <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
 
-//                 <label for="recipe-ingredients">Ingredients</label>
-//                 <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
+                <label for="recipe-ingredients">Ingredients</label>
+                <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
                 
-//                 <label for="recipe-directions">Directions</label>
-//                 <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
+                <label for="recipe-directions">Directions</label>
+                <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
                 
-//                 <label for="recipe-image">Image</label>
-//                 <div class="recipe-image" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
-//                     <p>Drop an image or click to select a file to upload</p>
-                    
-//                     <input type="file" accept="image/*" style="display: none;">
-//                 </div>
-//                 <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
-//             </form>
-//         </div>
+                <label for="recipe-image">Directions</label>
+                <input type="text" id="recipe-image" placeholder="Image url" value required>
+            
+                <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
+            </form>
+        </div>
 
-//     `);
+    `);
 
-//     handleRecipeSubmit();
+    //code for image drop zone, put back when figure out html 
+    // <label for="recipe-image">Image</label>
+    // <div class="recipe-image" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
+    // <p>Drop an image or click to select a file to upload</p>
+    
+//     <input type="file" accept="image/*" style="display: none;">
+// </div>
 
-//     // add code to redirect user back to recipe page that was just created
-// }
+    handleRecipeSubmit();
 
-// function handleRecipeSubmit(callbackFn) {
-//     console.log('handleRecipeSubmit running');
-//     $("main").on("submit", "#recipe-form", function(event) {
-//         event.preventDefault();
-//         console.log('submitted a new recipe');
-//         // if user not logged in redirect them to log in page 
-//         //console.log(`event current target name input: ${$(event.currentTarget).find(".recipe-name").val()}`);
-//         const recipeForm = $(event.currentTarget);
-//         const newRecipe = {
-//             name: recipeForm.find(".recipe-name").val(),
-//             category: recipeForm.find(".recipe-category").val(),
-//             image: recipeForm.find(".recipe-image").val(),
-//             ingredients: recipeForm.find(".recipe-ingredients").val(),
-//             servings: recipeForm.find(".recipe-servings").val(),
-//             directions: recipeForm.find(".recipe-directions").val(),
-//             author: loadUsername(),
-//             id: 1111116
-//         };
+    // add code to redirect user back to recipe page that was just created
+}
 
-//         // add an id to recipe with newRecipe
+function handleRecipeSubmit() {
+    console.log('handleRecipeSubmit running');
+    $("main").on("submit", "#recipe-form", function(event) {
+        event.preventDefault();
+        console.log('submitted a new recipe');
+        // if user not logged in redirect them to log in page 
+        //console.log(`event current target name input: ${$(event.currentTarget).find(".recipe-name").val()}`);
+        const recipeForm = $(event.currentTarget);
+        const newRecipe = {
+            name: recipeForm.find(".recipe-name").val(),
+            category: recipeForm.find(".recipe-category").val(),
+            image: recipeForm.find(".recipe-image").val(), 
+            ingredients: recipeForm.find(".recipe-ingredients").val(),
+            servings: recipeForm.find(".recipe-servings").val(),
+            directions: recipeForm.find(".recipe-directions").val(),
+            author: loadUsername()
+        };
 
-//         console.log(newRecipe);
+        console.log(`this is the new recipe: ${newRecipe}`);
 
-//         //push newRecipe to db at end of list of recipes
-//         MOCK_RECIPES.recipes.push(newRecipe);
-//         console.log(MOCK_RECIPES.recipes.length);
-//         //pass in the index of new recipe to display newly created recipe page
-//         handleDisplayOneRecipe((MOCK_RECIPES.recipes.length)-1);
+        // mock data implementation
+        // MOCK_RECIPES.recipes.push(newRecipe);
+        // console.log(MOCK_RECIPES.recipes.length);
 
-//     });
-// }
+        api.create("api/recipes", newRecipe)
+        .then(response => handleDisplayOneRecipe(response));
+
+    });
+}
 
 // function handleDisplayNoteForm() {
 //     console.log(`handleDiplsayNoteForm running`);
@@ -452,7 +462,7 @@ function bindEventListeners() {
     // handleLogoutSubmit();
     handleRecipeClick();
     handleDisplayRecipes();
-    // handleCreateRecipe();
+    handleCreateRecipe();
 
     // run all the functions from above
 }
