@@ -35,8 +35,7 @@ router.get("/:id", (req, res, next) => {
 
 
 router.post("/", (req, res, next) => {
-  const { dishId, content } = req.body;
-  const userId = req.user.id;
+  const { dishId, userId, content } = req.body;
   const newNote = { dishId, userId, content };
 
   Note.create(newNote)

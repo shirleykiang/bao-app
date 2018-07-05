@@ -2,15 +2,6 @@
 "use strict";
 
 const api = (function () {
-  const search = function (path, query) {
-    return $.ajax({
-      type: "GET",
-      url: path,
-      dataType: "json",
-      data: query,
-      headers: { "Authorization": `Bearer ${loadAuthToken()}` } || null
-    });
-  };
   const details = function (path) {
     return $.ajax({
       type: "GET",
@@ -50,7 +41,6 @@ const api = (function () {
   };
   return {
     create,
-    search,
     details,
     update,
     remove

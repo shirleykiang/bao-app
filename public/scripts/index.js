@@ -12,36 +12,27 @@ function generateRecipes(data) {
         )};
 }
 
-// function generateNotes(data) {
+function generateNotes(data) {
 
-//     console.log('generateNotes running');
-//     const currentUserIndex = data.users.findIndex( user => user.username === loadUsername());
-//     //console.log(`this is the currentuser index: ${currentUserIndex}`);
-//     const currentUserNotes = data.users[currentUserIndex].notes; // returns array of objects
-//     //console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
-//     const currentDish = loadCurrentDish();
-//     if (currentUserNotes) {
-//         for (let i=0; i<currentUserNotes.length; i++) {
-//             if (currentUserNotes[i].dish == currentDish) {
-//                 $(".notes-contents").append(`
-//                 <div index="${i}">${currentUserNotes[i].content}</div>
-//                 `
-//                 )};
-//     }
-//     }
-// }
+    console.log('generateNotes running');
+    console.log(`this is the data ${data}`);
+    // const currentUserIndex = data.users.findIndex( user => user.username === loadUsername());
+    //console.log(`this is the currentuser index: ${currentUserIndex}`);
+    //console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
+    // const currentUser = loadUsername();
+    // console.log(currentUser);
+    const currentDish = loadCurrentDish();
+    console.log(currentDish);
+    for (let i=0; i<data.length; i++) {
+        if (data[i].dishId === currentDish) {
+            console.log(`this is data[i].dishid: ${data[i].dishId}`);
+            $(".notes-contents").append(`<div index="${i}">${data[i].content}</div>`)};
+        }
+    };
 
 
-// // refactor, make ajax get call to /api/users 
-// // api.details(/api/users)
+
 // // HELPER FUNCTIONS
-// function getUser() {
-    
-//     // setTimeout(function() {
-//     //     callbackFn(MOCK_USERS)
-//     // }, 1);
-//     api.details('/api/users');
-// }
 
 function getRecipes(callbackFn) {
     console.log('getRecipes ran');
@@ -57,13 +48,16 @@ function getRecipeIndexFromClick(target) {
     return target.attr("index");
 }
 
-// function getNotes(callbackFn) {
+function getNotes(callbackFn) {
 
-//     console.log('getNotes running');
-//     setTimeout(function() {
-//         callbackFn(MOCK_USERS)
-//     }, 1);
-// }
+    console.log('getNotes running');
+
+    api.details("/api/notes") //only gets the ones with userId val equivalent to current user's 
+    .then(response => {
+        console.log(`this is the note response ${response}`);
+        callbackFn(response);
+    });
+}
 
 // EVENT LISTENERS AND HANDLERS
 
@@ -118,7 +112,7 @@ function handleDisplayOneRecipe(recipe) {
             </div>
         </div>
     `);
-    // handleDisplayNotes();
+    handleDisplayNotes();
 }
 
 function handleDisplayRecipes() {
@@ -126,16 +120,15 @@ function handleDisplayRecipes() {
     getRecipes(generateRecipes);
 }
 
-// function handleDisplayNotes() {
-//     //check if user is logged in
+function handleDisplayNotes() {
+    console.log('handleDisplayNotes running');
 
-//     console.log('handleDisplayNotes running');
-//     if (loadUsername()) {
-//         $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section"><button class="add-note-button">+</button></div>');
-//         getNotes(generateNotes);
-//         handleAddNoteClick();
-//     }
-// }
+    if (loadUsername()) {
+        $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section"><button class="add-note-button">+</button></div>');
+        getNotes(generateNotes);
+        handleAddNoteClick();
+    }
+}
 
 
 function handleLoginClick() {
@@ -145,7 +138,6 @@ function handleLoginClick() {
         handleDisplayLoginPage();
     });
 }
-
 
 function handleDisplayLoginPage() {
     $("body").html(`
