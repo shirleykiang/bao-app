@@ -27,7 +27,6 @@ router.post("/", (req, res, next) => {
   );
 
   if (nonTrimmedField) {
-    console.log('nontrimmed field error');
     const err = new Error(`Field: '${nonTrimmedField}' cannot start or end with whitespace`);
     err.status = 422;
     return next(err);
@@ -43,7 +42,6 @@ router.post("/", (req, res, next) => {
       req.body[field].trim().length < sizedFields[field].min
   );
   if (tooSmallField) {
-    console.log('too small field error');
     const min = sizedFields[tooSmallField].min;
     const err = new Error(`Field: '${tooSmallField}' must be at least ${min} characters long`);
     err.status = 422;
@@ -56,7 +54,6 @@ router.post("/", (req, res, next) => {
   );
 
   if (tooLargeField) {
-    console.log('too large field error');
     const max = sizedFields[tooLargeField].max;
     const err = new Error(`Field: '${tooLargeField}' must be at most ${max} characters long`);
     err.status = 422;
@@ -71,15 +68,13 @@ router.post("/", (req, res, next) => {
         username,
         password: digest
       };
-      console.log('step 1 user created');
       return User.create(newUser);
     })
     .then(user => {
-      console.log('step 2 user created');
       return createAuthToken(user);
     })
     .then(token => {
-      console.log(token);
+      // console.log(token);
       return res.status(201).json( token );
     })
     .catch(err => {

@@ -24,7 +24,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  Note.findOne({ id })
+  Note.findOne({ _id: id })
     .then(result => 
         res.json(result)
     )

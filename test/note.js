@@ -42,7 +42,6 @@ describe("Bao API - Recipes", function () {
         console.log(`this is the user: ${user} and this the user.id: ${user.id}`);
         token = jwt.sign({ user }, JWT_SECRET);
 
-        // token = jwt.sign({ user }, JWT_SECRET, { subject: user.username });
       });
   });
 
