@@ -25,8 +25,13 @@ function generateNotes(data) {
     console.log(currentDish);
     for (let i=0; i<data.length; i++) {
         if (data[i].dishId === currentDish) {
-            console.log(`this is data[i].dishid: ${data[i].dishId}`);
-            $(".notes-contents").append(`<div index="${i}">${data[i].content}</div>`)};
+            // console.log(`this is data[i].dishid: ${data[i].dishId}`);
+            $(".notes-contents").append(`
+                <div class="note" index="${i}">
+                    <div>${data[i].content}</div>
+                    <button class="hidden-button">${data[i].createdAt}</button>
+                </div>
+                `)};
         }
     };
 
@@ -207,33 +212,15 @@ function handleLoginSubmit() {
         event.preventDefault();
         const userForm = $(event.currentTarget);
         const usernameInput = userForm.find(".username-entry").val();
-        console.log(`second time username input: ${usernameInput}`);
-        const passwordInput = userForm.find(".password-entry").val();
-        console.log(`this is the password inputted: ${passwordInput}`);
-        const existingUser = MOCK_USERS.users.find(user => user.username === usernameInput);
-        //console.log(`testing if ${passwordInput} equals ${existingUser.password}`);
-        // if usernameinput doesn't exist OR password doesn't match password of username input 
-        // empty out form and tell them to try again
-        if (existingUser) {
-            if (passwordInput === existingUser.password) {
-                console.log('you got the correct combo');
-                saveUsername(existingUser.username);
-                location.reload(); // is there a better way to bring back to home page? 
-                // LOG EM IN, redirect them to the home page
-                //handleLogoutDisplay();
-                // turn log in button into log out button
-                // store their username and id in local storage 
-                // give em a token
-            } else {
-                console.log('wrong password sucka');
-                // return  message saying wrong username or password. try again. 
-                // return reset log in form but username still there
-            }
-        } else {
-            //if the username doesn't even exist
-            console.log("wrong username or password. try again.");
-        }
-        
+        const passwordInput = userForm.find(".password-entry").val(); 
+        const loginUser = { username: usernameInput, password: passwordInput };
+
+        api.create("/api/login", loginUser)
+        .then(response => {
+            saveAuthToken(response);
+            saveUsername(usernameInput);
+            location.reload();
+        });
     });
 }
 
@@ -264,14 +251,10 @@ function handleSignupSubmit() {
         const password = userForm.find(".password-entry").val();
         console.log(username);
         console.log(password);
-        // const existingUser = checkExistingUser(getUsers()).find(user => user.username === username);
+        
         const newUser = { username: username, password: password };
         
-        //make sure there is code that checks for existing users in api
-        console.log(`this is the new user: ${newUser}`);
 
-        // if (!existingUser) {
-            
         api.create("/api/users", newUser)
         .then(token => {
             saveAuthToken(token);
@@ -280,11 +263,6 @@ function handleSignupSubmit() {
         });
         // .catch(handleErrors); 
 
-        // redirect them back to homepage 
-        // } else {
-        //     console.log('this username is already taken, please try again');
-        //     // empty out password input but keep username input  
-        // } 
     });
 }
 
@@ -337,7 +315,7 @@ function handleDisplayRecipeForm() {
 
     `);
 
-    //code for image drop zone, put back when figure out html 
+    //code for image drop zone, re-implement back when figure out html 
     // <label for="recipe-image">Image</label>
     // <div class="recipe-image" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
     // <p>Drop an image or click to select a file to upload</p>
@@ -347,7 +325,6 @@ function handleDisplayRecipeForm() {
 
     handleRecipeSubmit();
 
-    // add code to redirect user back to recipe page that was just created
 }
 
 function handleRecipeSubmit() {
@@ -369,10 +346,6 @@ function handleRecipeSubmit() {
         };
 
         console.log(`this is the new recipe: ${newRecipe}`);
-
-        // mock data implementation
-        // MOCK_RECIPES.recipes.push(newRecipe);
-        // console.log(MOCK_RECIPES.recipes.length);
 
         api.create("api/recipes", newRecipe)
         .then(response => handleDisplayOneRecipe(response));
@@ -442,7 +415,6 @@ function handleSubmitNote() {
 }
 
 function bindEventListeners() {
-    // console.log('page has loaded');
     handleFormToggle();
     handleRecipeClick();
     handleDisplayRecipes();
@@ -450,8 +422,6 @@ function bindEventListeners() {
     handleLoginClick();
     handleLoginSubmit();
     handleLogOutDisplay();
-
-    // run all the functions from above
 }
 
 

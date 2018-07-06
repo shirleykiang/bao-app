@@ -8,11 +8,11 @@ const router = express.Router();
 
 const createAuthToken = require("../utils/auth");
 
-
 router.post("/", (req, res, next) => {
   console.log('post request made to api/users');
   const requiredFields = ["username", "password"];
   const missingField = requiredFields.find(field => !(field in req.body));
+  let { username, password = "" } = req.body;
 
   if (missingField) {
     console.log('missing field');
@@ -63,7 +63,6 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-  let { username, password = "" } = req.body;
 
 
   return User.hashPassword(password)
@@ -85,7 +84,7 @@ router.post("/", (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
-      if (err.code === 11000) {
+      if (err.code === 11000) { // mongodb native code for existing username
         err = new Error("The username already exists");
         err.status = 400;
       }

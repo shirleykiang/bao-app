@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const localAuth = require("../middleware/local-auth");
 const jwtAuth = require("../middleware/jwt-auth");
 
+const createAuthToken = require("../utils/auth");
+
 const router = express.Router();
 
 router.post("/login", localAuth, (req, res, next) => {
