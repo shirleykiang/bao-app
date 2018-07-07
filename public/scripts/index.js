@@ -42,7 +42,7 @@ function generateNotes(data) {
 function getRecipes(callbackFn) {
     console.log('getRecipes ran');
 
-    api.details('api/recipes')
+    api.details("/api/recipes")
     .then(recipes =>
     callbackFn(recipes));
 }
