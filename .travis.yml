@@ -2,8 +2,6 @@ language: node_js
 node_js: node
 services:
 - mongodb
-install: 
-  travis_wait 20
 deploy:
   provider: heroku
   api_key:
