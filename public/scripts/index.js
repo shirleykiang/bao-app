@@ -14,30 +14,79 @@ function generateRecipes(data) {
 
 function generateNotes(data) {
 
-    console.log('generateNotes running');
-    console.log(`this is the data ${data}`);
+    // console.log('generateNotes running');
+    // console.log(`this is the data ${data}`);
     // const currentUserIndex = data.users.findIndex( user => user.username === loadUsername());
-    //console.log(`this is the currentuser index: ${currentUserIndex}`);
-    //console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
+    // console.log(`this is the currentuser index: ${currentUserIndex}`);
+    // console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
     // const currentUser = loadUsername();
     // console.log(currentUser);
     const currentDish = loadCurrentDish();
-    console.log(currentDish);
+    // console.log(currentDish);
     for (let i=0; i<data.length; i++) {
         if (data[i].dishId === currentDish) {
-            // console.log(`this is data[i].dishid: ${data[i].dishId}`);
+            // console.log(`this is data[i]._id: ${data[i].id}`);
             $(".notes-contents").append(`
-                <div class="note" index="${i}">
-                    <div>${data[i].content}</div>
-                    <button class="hidden-button">${data[i].createdAt}</button>
+                <div id="note-${i}">
+                    <div id="note-text-${i}" data-id="${data[i].id}" index="${i}" onclick="toggleNoteEditor(${i})">
+                        ${data[i].content}
+                    </div>
+                    <div class="note-editor" id="note-editor-${i}"> 
+                        <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea><br>
+                    </div>
+                    <button id="note-delete" onclick="doDeleteNote(${i})">
+                    </button>
                 </div>
                 `)};
         }
     };
 
+function doDeleteNote(index) {
+    console.log('doDeleteNote is running');
+    let currentText = document.getElementById(`note-text-${index}`);
+    let noteId = currentText.dataset.id;
+    api.remove(`/api/notes/${noteId}`);
+    $(`#note-${index}`).remove();
+}
 
+function toggleNoteEditor(index) {
+    console.log('toggleNoteEditor running');
+    let currentText = document.getElementById(`note-text-${index}`);
+    let editedText = document.getElementById(`ta-${index}`);
+    let editorArea = document.getElementById(`note-editor-${index}`);
 
-// // HELPER FUNCTIONS
+    let subject = currentText.innerHTML;
+    editedText.value = subject;
+
+    currentText.style.display = 'none';
+    editorArea.style.display = 'inline';
+}
+
+function doEditNote(index) {
+    console.log('doEditNote running');
+    let currentText = document.getElementById(`note-text-${index}`);
+    let editedText = document.getElementById(`ta-${index}`);
+    let editorArea = document.getElementById(`note-editor-${index}`);
+    let noteId = currentText.dataset.id;
+    let dishId = loadCurrentDish();
+    let content = editedText.value;
+
+    console.log(`this is the noteId: ${noteId}`);
+  
+    const updatedNote = { dishId, content };
+
+    console.log(`this is the updatedNote: ${updatedNote}`);
+
+    api.update(`/api/notes/${noteId}`, updatedNote); // give catch error? 
+
+    var subject = editedText.value;
+    currentText.innerHTML = subject;
+  
+    currentText.style.display = 'inline';
+    editorArea.style.display = 'none';
+}
+
+// HELPER FUNCTIONS
 
 function getRecipes(callbackFn) {
     console.log('getRecipes ran');
@@ -59,7 +108,7 @@ function getNotes(callbackFn) {
 
     api.details("/api/notes") //only gets the ones with userId val equivalent to current user's 
     .then(response => {
-        console.log(`this is the note response ${response}`);
+        // console.log(`this is the note response ${response}`);
         callbackFn(response);
     });
 }
@@ -129,7 +178,15 @@ function handleDisplayNotes() {
     console.log('handleDisplayNotes running');
 
     if (loadUsername()) {
-        $(".recipe-page-notes").append('<div class="notes-header"><h3>Notes</h3></div><div class="notes-contents"></div><div class="add-note-section"><button class="add-note-button">+</button></div>');
+        $(".recipe-page-notes").append(`
+            <div class="notes-header">
+                <h3>Notes</h3>
+            </div>
+            <div class="notes-contents">
+            </div>
+            <div class="add-note-section">
+                <button class="add-note-button">+</button>
+            </div>`);
         getNotes(generateNotes);
         handleAddNoteClick();
     }
