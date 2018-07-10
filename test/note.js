@@ -39,7 +39,6 @@ describe("Bao API - Recipes", function () {
     ])
       .then(([users]) => {
         user = users[0];
-        console.log(`this is the user: ${user} and this the user.id: ${user.id}`);
         token = jwt.sign({ user }, JWT_SECRET);
 
       });
@@ -64,7 +63,6 @@ describe("Bao API - Recipes", function () {
 
       return Promise.all([dbPromise, apiPromise])
         .then(([data, res]) => {
-          console.log(res);
           expect(res).to.have.status(200);
           expect(res).to.be.json;
           expect(res.body).to.be.a("array");
