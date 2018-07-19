@@ -2,7 +2,7 @@
     {
         "_id": "000000000000000000000000",
         "name": "Beef Noodle Soup",
-        "category": "Meal",
+        "category": "Food",
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
@@ -12,7 +12,7 @@
       {
         "_id": "000000000000000000000001",
         "name": "Beef Noodle Soup",
-        "category": "Meal",
+        "category": "Food",
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
@@ -22,7 +22,7 @@
       {
         "_id": "000000000000000000000002",
         "name": "Beef Noodle Soup",
-        "category": "Meal",
+        "category": "Food",
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
@@ -32,7 +32,7 @@
       {
         "_id": "000000000000000000000003",
         "name": "Beef Noodle Soup",
-        "category": "Meal",
+        "category": "Food",
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
@@ -42,7 +42,7 @@
       {
         "_id": "000000000000000000000004",
         "name": "Beef Noodle Soup",
-        "category": "Meal",
+        "category": "Food",
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
