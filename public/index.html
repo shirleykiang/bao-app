@@ -7,9 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Bao</title>
-  <link rel="stylesheet" href="styles/index.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,400|Open+Sans:300,600" rel="stylesheet">
 
   <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/index.css">
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -23,22 +25,36 @@
 
   <header role="banner">
       <nav role="navigation" class="navbar">
-          <div class="leftnav">
-            <a href="javascript:window.location.reload(true)" class="nav-logo">
-                <img src="logowithname" alt="bao-logo" class="session-home-link">
-            </a>
-          </div>
-          <div class="rightnav">
-            <button class="nav-item-login">LOG IN</button>
-            <button class="nav-item-create" id="create-a-recipe">CREATE A RECIPE</button>
-          </div>
+        <ul>
+          <li>
+            <div class="leftnav">
+              <a href="javascript:window.location.reload(true)" class="nav-logo">
+                  <img src="https://res.cloudinary.com/shirleykiang/image/upload/v1531930508/bao_logo_title.png" alt="bao-logo" class="home-link">
+              </a>
+            </div>
+          </li>
+          <li>
+            <div class="rightnav">
+                <button class="nav-demo-login">VIEW DEMO</button>
+                <button class="nav-item-login">LOG IN</button>
+                <button class="nav-item-create" id="create-a-recipe">CREATE A RECIPE</button>
+            </div>
+          </li>
+        </ul>
       </nav>
   </header>
 
   <main role="main">
-
+      <div class="parallax-bg">
+        <div class="title-caption">
+          <h1>LEARN TAIWANESE<br>COOKING</h1>
+          <h2>Try or create new dishes. Make notes. Ja Bung (let's eat)!</h2>
+          <button class="nav-item-create" id="create-a-recipe">CREATE A RECIPE</button>
+        </div>
+      </div>
     <div class="recipes-section">
-        FEATURED RECIPES:
+      <h3>FEATURED RECIPES:</h3>
+        
         <div class="recipes-index">
 
         </div>

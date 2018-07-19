@@ -1,3 +1,476 @@
+/* mobile first */
+
+html {
+    box-sizing: border-box;
+}
+
 .note-editor {
     display: none;
  }
+
+ .home-link {
+    cursor: pointer;
+    height: 30px;
+ }
+
+.leftnav {
+    text-align: center;
+}
+
+ .navbar {
+     overflow: hidden;
+     background-color: white;
+     position: fixed;
+     top: 0;
+     width: 100%;
+     box-shadow: 0 0.9px 4px 0 rgba(0,0,0,0.05);
+ }
+
+.navbar ul li:first-child {
+    float:left;
+}
+
+.navbar ul li {
+    list-style: none;
+    margin: 17px;
+    float: right;
+}
+
+ .nav-item-login, .nav-demo-login {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    display: inline-block;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    padding-right: 28px;
+    font-size:9pt;
+    letter-spacing: 1px;
+ }
+
+ .nav-item-login:hover, .nav-demo-login:hover {
+     color: #525252
+ }
+
+ .nav-item-create {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    border: none;
+    background-color: black;
+    padding: 13px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size:9pt;
+    letter-spacing: 1px;
+ }
+
+ .nav-item-create:hover {
+
+    background-color:#525252;
+ }
+
+ main {
+    padding: 60px 0;
+}
+
+main h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+main h1 {
+    font-weight: 400;
+    font-size: 23pt;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+    line-height: 28pt;
+}
+
+main h2 {
+    font-weight: 200;
+    font-size: 10pt;
+    margin-bottom: 21px;
+    letter-spacing: 1.2px;
+}
+
+ .parallax-bg {
+     background-image: url(https://res.cloudinary.com/shirleykiang/image/upload/v1531941966/taipei101reversed.png);
+     background-repeat: no-repeat;
+     background-size: cover;
+     margin: 0 12px 0 12px;
+     height: 90vh;
+     background-position: center;
+     background-attachment: fixed;
+     display: flex;
+     flex-direction: row;
+     align-items: flex-end;
+     min-width: 1050px;
+ }
+
+ .title-caption {
+    padding: 0 0 100px 44px;
+ }
+
+ .recipes-section {
+     text-align: center;
+ }
+
+ .recipes-section h3 {
+     font-family: 'Montserrat', sans-serif;
+     font-weight: 200;
+     font-size: 14pt;
+     padding-top: 100px;
+     padding-bottom: 80px;
+ }
+
+ .recipes-index {
+     margin: auto;
+     width: 70%;
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+.recipe-container {
+    position: relative;
+    cursor: pointer;
+    width: 60vh;
+    height: 40vh;
+    overflow: hidden;
+ }
+
+ .recipe-container img {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    transition: .5s ease;
+    backface-visibility: hidden;
+ }
+
+.recipes-index span {
+    display: block;
+}
+
+.recipe-hover-title {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.recipe-container:hover img {
+    opacity: 0.3;
+  }
+  
+.recipe-container:hover .recipe-hover-title {
+    opacity: 1;
+  }
+
+  .recipes-index .recipe-category {
+font-family: 'Montserrat', sans-serif;
+font-weight: 200;
+font-size: 11pt;
+margin-bottom: 3px;
+letter-spacing: 1px;
+line-height: 12pt;
+  }
+
+  .recipes-index .recipe-name {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 13.4pt;
+    line-height: 17.4pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+      }
+
+/* LOG IN PAGE */
+
+.single-nav-logo {
+    display: inline-block;
+    margin-left: 5.5vh;
+    margin-top: 5.5vh;
+}
+
+.form-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    min-width: 462px;
+}
+
+.session-page form {
+    margin-top: -145px;
+    padding: 20px 0;
+    width: 330px;
+    text-align: center;
+}
+
+.session-page legend {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 200;
+    font-size: 20pt;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.session-page input {
+    border: 0;
+	outline: 0;
+	background: transparent;
+    border-bottom: 1px solid #525252;
+    color: #525252;
+    line-height: 23pt;
+    width: 100%;
+    
+}
+
+.session-page input::placeholder {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    font-size: 10.5pt;
+    padding-left: 6px;
+    letter-spacing: 2px;
+}
+.switch-form-button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 100;
+    font-size: 9pt;
+    cursor: pointer;
+    color: #626262;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.login-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    border: none;
+    background-color: white;
+    padding: 13px 32px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: black;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 12pt;
+    letter-spacing: 1.5px;
+    margin: 20px 0;
+ }
+
+ .login-button:hover {
+    background-color:#525252;
+    color: white;
+ }
+
+ .switch-form-button:hover {
+     font-weight: 100;
+     color: #525252;
+ }
+
+ /* RECIPE PAGE */
+
+ .recipe-page-container {
+     padding: 55px 85px;
+ }
+
+ .recipe-page-heading.category, .recipe-page.title {
+    display: block;
+ }
+
+ .recipe-page-heading {
+     font-size: 14pt;
+     letter-spacing: 1px;
+     margin-top: 50px;
+     margin-bottom: 5px;
+ }
+
+ .recipe-image-container {
+    width: 82vh;
+    height: 57vh;
+    overflow: hidden;
+ }
+
+ .recipe-image-container img {
+    display: block;
+    width: 100%;
+ }
+
+ .recipe-page.title {
+     font-family: 'Open Sans', sans-serif;
+     font-weight: 600;
+     font-size: 27pt;
+     text-transform: uppercase;
+     letter-spacing: 4px;
+     margin-top: 5px;
+     margin-bottom: 21px;
+ }
+
+ .recipe-page-heading, .recipe-page.servings, .recipe-page.ingredients, .recipe-page.directions, .recipe-page.notes {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+ }
+
+ .recipe-page.servings {
+    font-size: 19pt;
+}
+
+ .recipe-page.ingredients, .recipe-page.directions {
+     font-size: 13pt;
+     letter-spacing: 1px;
+ }
+
+.recipe-page.notes {
+    font-size: 8pt;
+    letter-spacing: 1px;
+    /*display: flex;*/
+}
+
+
+.note-wrapper {
+    position: relative;
+    width: 20vh;
+    height: 20vh;
+    background-color: #f6f7f8;
+    max-width: 200px;
+    max-height: 200px;
+ }
+
+ .note-text {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    transition: .4s ease;
+ }
+
+.note-editor, .note-delete {
+    display: inline-block;
+}
+
+.note-hover-container {
+    background-color: #818285;
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.note-wrapper:hover {
+    opacity: 0.3;
+  }
+  
+.note-wrapper:hover .note-hover-container {
+    opacity: 1;
+  }
+
+  .add-note-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    width: 20vh;
+    height: 20vh;
+    background-color: #f6f7f8;
+    max-width: 200px;
+    max-height: 200px;
+    font-size: 40pt;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .add-note-button:hover {
+      background-color: #97999c;
+      color: white;
+  }
+
+.note-hover-container textarea {
+    width: 20vh;
+    height: 20vh;
+    border: none;
+}
+.ingredients-list, .directions-list {
+    font-size: 11pt;
+    padding: 35px;
+}
+
+
+/* RECIPE FORM PAGE */
+
+.note-form-page {
+    padding: 90px 85px;
+}
+
+.note-form-content {
+    width: 50%;
+    margin: auto;
+}
+
+.note-form-head {
+    width: 100%;
+}
+
+.note-form-head h1 {
+    font-size: 25pt;
+    letter-spacing: 4px;
+}
+
+.note-form-head h2 {
+    font-weight: 100pt;
+    font-size: 9pt;
+    letter-spacing: 2px;
+}
+
+.note-form-head h1, h2 {
+    display: inline;
+    width: 50%;
+}
+
+.note-form-page form {
+    background-color: white;
+}
+
+.note-form-content textarea {
+    border: none;
+}
+
+.submit-note-form  {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    border: none;
+    background-color: black;
+    padding: 13px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size:9pt;
+    letter-spacing: 1px;
+ }
+
+ .submit-note-form:hover {
+    background-color:#525252;
+ }
+ /*
+ @media all and (max-width: 1690px) { ...}
+ @media all and (max-width: 1280px) { ...}
+ @media all and (max-width: 980px) { ... }
+ @media all and (max-width: 736px) { ... }
+ @media all and (max-width: 480px) { ... }
+ */

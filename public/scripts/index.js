@@ -2,13 +2,15 @@
 
 // GENERATE HTML FUNCTIONS
 function generateRecipes(data) {
-    console.log('generateRecipes running');
-    console.log(`this is data[0].name: ${data[0].name}`);
     for (let i=0; i<data.length; i++) {
         $(".recipes-index").append(
-            `<span>${data[i].name}</span><br>
-            <img alt="${data[i].name}" src="${data[i].image}" class="recipe-image" index="${i}" data-id="${data[i].id}" style="width: 200px; height: 200px;">
-            <br>`
+            `<div class="recipe-container">
+            <img alt="${data[i].name}" src="${data[i].image}" class="recipe-image" index="${i}" data-id="${data[i].id}">
+            <div class="recipe-hover-title">
+                <span class="recipe-category">${data[i].category}</span>
+                <span class="recipe-name">${data[i].name}</span>
+            </div>
+            </div>`
         )};
 }
 
@@ -22,20 +24,25 @@ function generateNotes(data) {
     // const currentUser = loadUsername();
     // console.log(currentUser);
     const currentDish = loadCurrentDish();
+    console.log(`this is the data; ${data}`);
     // console.log(currentDish);
     for (let i=0; i<data.length; i++) {
         if (data[i].dishId === currentDish) {
-            // console.log(`this is data[i]._id: ${data[i].id}`);
-            $(".notes-contents").append(`
-                <div id="note-${i}">
-                    <div id="note-text-${i}" data-id="${data[i].id}" index="${i}" onclick="toggleNoteEditor(${i})">
+            console.log(`this is the note content: ${data[i].content}`);
+            $(".recipe-page.notes").prepend(`
+                <div class="note-wrapper" id="note-wrapper-${i}">
+                    <div id="note-text-${i}" class="note-text" data-id="${data[i].id}" index="${i}">
                         ${data[i].content}
                     </div>
-                    <div class="note-editor" id="note-editor-${i}"> 
-                        <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea><br>
+                    <div class="note-hover-container">
+                        <div class="note-editor" id="note-editor-${i}"> 
+                            <button class="note-editor-button" onclick="toggleNoteEditor(${i})">EDIT</button>
+                            <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea>
+                        </div>
+                        <button id="note-delete" onclick="doDeleteNote(${i})">
+                        DEL
+                        </button>
                     </div>
-                    <button id="note-delete" onclick="doDeleteNote(${i})">
-                    </button>
                 </div>
                 `)};
         }
@@ -46,7 +53,7 @@ function doDeleteNote(index) {
     let currentText = document.getElementById(`note-text-${index}`);
     let noteId = currentText.dataset.id;
     api.remove(`/api/notes/${noteId}`);
-    $(`#note-${index}`).remove();
+    $(`#note-wrapper-${index}`).remove();
 }
 
 function toggleNoteEditor(index) {
@@ -145,27 +152,53 @@ function handleDisplayOneRecipe(recipe) {
     clearCurrentDish();
     saveCurrentDish(recipe_object.id);
     console.log(`this is the id of the current dish showing: ${loadCurrentDish()}`);
+    $('html').css("background-color", "white");
     $('main').html(`
-        <div class="recipe-page">
-            <div class="recipe-page-title">
-                <h1 class="recipe-title">${recipe_object.name}</h1>
-            </div>
-            <br>
-            <span class="recipe-page-category">
+        <div class="recipe-page-container">
+            <span class="recipe-page-heading category">
             ${recipe_object.category}
             </span>
-            <br>
-            <img src="${recipe_object.image}" alt="${recipe_object.name}" style="width:200px; height:200px;">
-            <div class="recipe-page-ingredients">
-            ${recipe_object.ingredients}
+            <h1 class="recipe-page title">${recipe_object.name}</h1>
+            <div class="recipe-image-container">
+                <img src="${recipe_object.image}" alt="${recipe_object.name}" class="recipe-page image">
             </div>
-            <div class="recipe-page-directions">
-            ${recipe_object.directions}
+            <div class="recipe-page-heading servings">
+                Serves
             </div>
-            <div class="recipe-page-notes">
+            <div class="recipe-page servings">
+                ${recipe_object.servings}
+            </div>
+            <div class="recipe-page-heading ingredients">
+                Ingredients
+            </div>
+            <div class="recipe-page ingredients">
+                <ul class="ingredients-list"></ul>
+            </div>
+            <div class="recipe-page-heading directions">
+            Directions
+            </div>
+            <div class="recipe-page directions">
+                <ol class="directions-list"></ol>
+            </div>
+            <div class="recipe-page-heading notes">
+            </div>
+            <div class="recipe-page notes">
             </div>
         </div>
     `);
+
+    for (let i=0; i<recipe_object.ingredients.length; i++) {
+        $('.ingredients-list').append(`
+        <li>${recipe_object.ingredients[i]}</li>
+        `);
+    };
+
+    for (let i=0; i<recipe_object.directions.length; i++) {
+        $('.directions-list').append(`
+        <li>${recipe_object.directions[i]}</li>
+        `);
+    }
+
     handleDisplayNotes();
 }
 
@@ -178,15 +211,10 @@ function handleDisplayNotes() {
     console.log('handleDisplayNotes running');
 
     if (loadUsername()) {
-        $(".recipe-page-notes").append(`
-            <div class="notes-header">
-                <h3>Notes</h3>
-            </div>
-            <div class="notes-contents">
-            </div>
-            <div class="add-note-section">
-                <button class="add-note-button">+</button>
-            </div>`);
+        $(".recipe-page-heading.notes").append(`
+            Notes`);
+        $(".recipe-page.notes").prepend(`
+                <button class="add-note-button">+</button>`);
         getNotes(generateNotes);
         handleAddNoteClick();
     }
@@ -202,35 +230,35 @@ function handleLoginClick() {
 }
 
 function handleDisplayLoginPage() {
+    $("html").css("background-color", "black");
     $("body").html(`
-
         <div class="session-page">
-        <a href="javascript:window.location.reload(true)" class="session-home-link">
-            <img src="" alt="bao-logo" class="session-home-link">
-        </a>
-        <div class="form-div">
-            <form id="session-form" data-login="true">
-                <fieldset>
-                <legend class="form-title">Login to Bao</legend>
-                <div class="login-form">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="peterparker" class="username-entry" value >
+            <a href="javascript:window.location.reload(true)" class="single-nav-logo">
+            <img src="https://res.cloudinary.com/shirleykiang/image/upload/v1531329497/bao_logo.png" alt="bao-logo" class="home-link">
+            </a>
+            <div class="form-div">
+                <form id="session-form" data-login="true">
+                    <fieldset>
+                    <legend class="form-title">Login to Bao</legend>
+                    <div class="login-form">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="jeremylin" class="username-entry" value >
 
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="password" class="password-entry" value >
-                    
-                    <button type="submit" form="session-form" class="login-button">Log In</button>
-                </div>
-                </fieldset>
-                <div class="session-foot">
-                    <div>
-                    <span>
-                        <span class="switch-form-button">New to Bao? Signup instead</span>
-                    </span>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="password" class="password-entry" value >
+                        
+                        <button type="submit" form="session-form" class="login-button">Log In</button>
                     </div>
-                </div>
-            </form>
-        </div>
+                    </fieldset>
+                    <div class="session-foot">
+                        <div>
+                        <span>
+                            <span class="switch-form-button">New to Bao? Signup instead</span>
+                        </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         `);
 }
@@ -340,10 +368,10 @@ function handleDisplayRecipeForm() {
         <div class="recipe-form-page">
             <div class="recipe-form-contents">
                 <div class="recipe-form-head">
-                    <h1>New Recipe</h1>
+                    <h1>NEW RECIPE</h1>
                 </div>
             </div>
-            <form id="recipe-form">
+            <form id="recipe-form" onsubmit="return confirm('Are you sure you want to create this recipe?');">
 
                 <label for="recipe-name">Dish Name</label>
                 <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
@@ -412,17 +440,21 @@ function handleRecipeSubmit() {
 
 function handleDisplayNoteForm() {
     console.log(`handleDisplayNoteForm running`);
+    $("html").css("background-color", "#f6f7f8");
     $("main").html(`
         <div class="note-form-page">
-            <div class="note-form-contents">
+            <div class="note-form-content">
                 <div class="note-form-head">
-                    <h1>New Note</h1>
+                    <h1>NEW NOTE</h1>
+                    <h2>Write a brief note on your learnings so you
+                    can improve this dish for future reps.</h2>
                 </div>
                 <form id="note-form">
                     <textarea class="note-content" rows="10" cols="30"></textarea>
                     <button type="submit" form="note-form" class="submit-note-form">ADD</button>
                 </form>
-    </div>
+            </div>
+        </div>
     `);
 }
 
@@ -471,11 +503,31 @@ function handleSubmitNote() {
     })
 }
 
+function handleDemoClick() {
+    console.log('handleDemoClick running');
+    if (loadUsername()) {
+        $(".nav-demo-login").remove();
+    };
+
+    $(".nav-demo-login").on("click", function(event) {
+
+        const loginUser = { username: "testuser", password: "testuserpassword" };
+
+        api.create("/api/login", loginUser)
+        .then(response => {
+            saveAuthToken(response);
+            saveUsername(usernameInput);
+            location.reload();
+        });
+    });
+}
+
 function bindEventListeners() {
     handleFormToggle();
     handleRecipeClick();
     handleDisplayRecipes();
     handleCreateRecipe();
+    handleDemoClick();
     handleLoginClick();
     handleLoginSubmit();
     handleLogOutDisplay();
