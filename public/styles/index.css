@@ -24,6 +24,7 @@ html {
      top: 0;
      width: 100%;
      box-shadow: 0 0.9px 4px 0 rgba(0,0,0,0.05);
+     z-index: 99;
  }
 
 .navbar ul li:first-child {
@@ -44,7 +45,7 @@ html {
     text-decoration: none;
     cursor: pointer;
     padding-right: 28px;
-    font-size:9pt;
+    font-size: 9pt;
     letter-spacing: 1px;
  }
 
@@ -69,7 +70,6 @@ html {
  }
 
  .nav-item-create:hover {
-
     background-color:#525252;
  }
 
@@ -101,8 +101,8 @@ main h2 {
      background-repeat: no-repeat;
      background-size: cover;
      margin: 0 12px 0 12px;
-     height: 90vh;
-     background-position: center;
+     height: 85vh;
+     background-position: left;
      background-attachment: fixed;
      display: flex;
      flex-direction: row;
@@ -128,11 +128,10 @@ main h2 {
 
  .recipes-index {
      margin: auto;
-     width: 70%;
+     width: 80%;
      display: flex;
-     flex-direction: row;
-     flex-wrap: wrap;
-     justify-content: space-between;
+     flex-flow: row wrap;
+     justify-content: center;
      align-items: center;
  }
 
@@ -142,6 +141,7 @@ main h2 {
     width: 60vh;
     height: 40vh;
     overflow: hidden;
+    margin: 4.5vh;
  }
 
  .recipe-container img {
@@ -242,6 +242,7 @@ line-height: 12pt;
     padding-left: 6px;
     letter-spacing: 2px;
 }
+
 .switch-form-button {
     font-family: "Montserrat", sans-serif;
     font-weight: 100;
@@ -335,7 +336,10 @@ line-height: 12pt;
 .recipe-page.notes {
     font-size: 8pt;
     letter-spacing: 1px;
-    /*display: flex;*/
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 
@@ -346,17 +350,23 @@ line-height: 12pt;
     background-color: #f6f7f8;
     max-width: 200px;
     max-height: 200px;
+    margin-right: 2vh;
+    margin-top: 2vh;
  }
 
  .note-text {
     opacity: 1;
     display: block;
-    width: 100%;
+    width: 87%;
+    margin: auto;
+    font-size: 9.5pt;
     transition: .4s ease;
+    padding: 12px;
  }
 
 .note-editor, .note-delete {
     display: inline-block;
+    cursor: pointer;
 }
 
 .note-hover-container {
@@ -391,6 +401,7 @@ line-height: 12pt;
     border: none;
     cursor: pointer;
     transition: 0.3s ease;
+    margin-top: 2vh;
   }
 
   .add-note-button:hover {
@@ -402,6 +413,7 @@ line-height: 12pt;
     width: 20vh;
     height: 20vh;
     border: none;
+    resize: vertical;
 }
 .ingredients-list, .directions-list {
     font-size: 11pt;
@@ -409,19 +421,21 @@ line-height: 12pt;
 }
 
 
-/* RECIPE FORM PAGE */
+/* NOTE FORM PAGE */
 
 .note-form-page {
     padding: 90px 85px;
 }
 
 .note-form-content {
-    width: 50%;
+    width: 70%;
     margin: auto;
+    max-width: 590px;
 }
 
 .note-form-head {
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .note-form-head h1 {
@@ -429,22 +443,33 @@ line-height: 12pt;
     letter-spacing: 4px;
 }
 
-.note-form-head h2 {
+.note-form-head h2 
     font-size: 9pt;
-    letter-spacing: 2px;
+    letter-spacing: 1.3px;
+    float: right;
 }
 
-.note-form-head h1, h2 {
+.note-form-head h1, .note-form-head h2 {
     display: inline;
     width: 50%;
 }
 
 .note-form-page form {
     background-color: white;
+    padding: 50px 70px;
 }
 
 .note-form-content textarea {
     border: none;
+    resize: vertical;
+    display: block;
+    margin: auto;
+}
+
+.note-form-title, .submit-note-form {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 12pt;
 }
 
 .submit-note-form  {
@@ -452,20 +477,132 @@ line-height: 12pt;
     font-weight: 200;
     border: none;
     background-color: black;
-    padding: 13px 32px;
+    padding: 13px 52px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: block;
     color: white;
     cursor: pointer;
     transition: 0.3s;
-    font-size:9pt;
+    font-size: 8pt;
     letter-spacing: 1px;
+    margin: auto;
+    margin-top: 35px;
  }
 
  .submit-note-form:hover {
     background-color:#525252;
  }
+
+
+/* RECIPE FORM PAGE */
+
+.recipe-form-page {
+    padding: 90px 85px;
+}
+
+.recipe-form-content {
+    width: 83%;
+    margin: auto;
+    max-width: 590px;
+}
+
+.recipe-form-head {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.recipe-form-head h1 {
+    font-size: 25pt;
+    letter-spacing: 4px;
+    display: inline;
+    width: 50%;
+}
+
+.recipe-form-page form {
+    background-color: white;
+    padding: 25px 70px;
+}
+
+.recipe-form-content textarea {
+    border: none;
+    resize: vertical;
+    display: block;
+    margin: auto;
+}
+
+.submit-recipe-form  {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    border: none;
+    background-color: black;
+    padding: 13px 52px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 8pt;
+    letter-spacing: 1px;
+    margin: auto;
+    margin-top: 35px;
+    margin-bottom: 16px;
+ }
+
+ .submit-recipe-form:hover {
+    background-color:#525252;
+ }
+
+ .recipe-form-content label, .recipe-form-content select {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 12pt;
+    display: block;
+    margin-top: 36px;
+ }
+
+ .recipe-form-content select {
+    display: none;
+    margin-top: 17px;
+}
+
+.recipe-form-content input, .recipe-form-content select {
+    border: 0;
+    outline: 0;
+    font-weight: 200;
+    letter-spacing: 1.5px;
+    display: block;
+    background: transparent;
+    font-family: "Montserrat", sans-serif;
+    font-size: 9pt;
+    color: #757575;
+    line-height: 23pt;
+    width: 100%;
+    border-bottom: 1px solid black;
+    margin-top: 9px;
+    padding-left: 8px;
+}
+
+
+
+.recipe-title {
+    margin-top:0px;
+}
+
+.recipe-form-content input::placeholder {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 200;
+    font-size: 9pt;
+    letter-spacing: 1.5px;
+    display: inline-block;
+    /*margin-bottom: 5px;*/
+}
+
+.recipe-form-content select {
+
+}
+
  /*
  @media all and (max-width: 1690px) { ...}
  @media all and (max-width: 1280px) { ...}

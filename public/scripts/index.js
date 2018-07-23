@@ -39,7 +39,7 @@ function generateNotes(data) {
                             <button class="note-editor-button" onclick="toggleNoteEditor(${i})">EDIT</button>
                             <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea>
                         </div>
-                        <button id="note-delete" onclick="doDeleteNote(${i})">
+                        <button class="note-delete" onclick="doDeleteNote(${i})">
                         DEL
                         </button>
                     </div>
@@ -89,7 +89,7 @@ function doEditNote(index) {
     var subject = editedText.value;
     currentText.innerHTML = subject;
   
-    currentText.style.display = 'inline';
+    //currentText.style.display = 'inline';
     editorArea.style.display = 'none';
 }
 
@@ -364,38 +364,39 @@ function handleCreateRecipe() {
 }
 
 function handleDisplayRecipeForm() {
+    $("html").css("background-color", "#f6f7f8");
     $("main").html(`
         <div class="recipe-form-page">
-            <div class="recipe-form-contents">
+            <div class="recipe-form-content">
                 <div class="recipe-form-head">
                     <h1>NEW RECIPE</h1>
                 </div>
+                <form id="recipe-form" onsubmit="return confirm('Are you sure you want to create this recipe?');">
+
+                    <label for="recipe-name" class="recipe-title">DISH NAME</label>
+                    <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
+                
+                    <label for="recipe-category">CATEGORY</label>
+                    <select id="recipe-category" class="recipe-category" value required>
+                        <option value="Food">Food</option>
+                        <option value="Dessert">Dessert</option>
+                    </select>
+
+                    <label for="recipe-servings">SERVINGS</label>
+                    <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
+
+                    <label for="recipe-ingredients">INGREDIENTS</label>
+                    <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup (separated by commas)" class="recipe-ingredients" value required>
+                    
+                    <label for="recipe-directions">DIRECTIONS</label>
+                    <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy (separated by commas)" class="recipe-directions" value required>
+                    
+                    <label for="recipe-image">IMAGE URL</label>
+                    <input type="text" id="recipe-image" placeholder="www.google.com/image" class="recipe-image" value required>
+                
+                    <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
+                </form>
             </div>
-            <form id="recipe-form" onsubmit="return confirm('Are you sure you want to create this recipe?');">
-
-                <label for="recipe-name">Dish Name</label>
-                <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
-            
-                <label for="recipe-category">Category</label>
-                <select id="recipe-category" class="recipe-category" value required>
-                    <option value="Food">Food</option>
-                    <option value="Dessert">Dessert</option>
-                </select>
-
-                <label for="recipe-servings">Servings</label>
-                <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
-
-                <label for="recipe-ingredients">Ingredients</label>
-                <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup" class="recipe-ingredients" value required>
-                
-                <label for="recipe-directions">Directions</label>
-                <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy" class="recipe-directions" value required>
-                
-                <label for="recipe-image">Image</label>
-                <input type="text" id="recipe-image" placeholder="Image url" class="recipe-image" value required>
-            
-                <button type="submit" form="recipe-form" class="submit-recipe-form">CREATE</button>
-            </form>
         </div>
 
     `);
@@ -446,12 +447,14 @@ function handleDisplayNoteForm() {
             <div class="note-form-content">
                 <div class="note-form-head">
                     <h1>NEW NOTE</h1>
-                    <h2>Write a brief note on your learnings so you
-                    can improve this dish for future reps.</h2>
+                    <h2>Write a brief note on your learnings to improve this dish for future reps.</h2>
                 </div>
                 <form id="note-form">
-                    <textarea class="note-content" rows="10" cols="30"></textarea>
-                    <button type="submit" form="note-form" class="submit-note-form">ADD</button>
+                    <h3 class="note-form-title">
+                    CONTENT
+                    </h3>
+                    <textarea class="note-content" rows="10" cols="30" placeholder:"i.e. Made on 7/11, be sure to add spicy beans sauce gradually"></textarea>
+                    <button type="submit" form="note-form" class="submit-note-form">CREATE</button>
                 </form>
             </div>
         </div>
