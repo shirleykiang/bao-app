@@ -7,9 +7,6 @@ function showFailureMessage(message) {
 }
 
 function handleErrors(err) {
-    if (err.status === 401) {
-        console.log(`401 error`); // 
-      }
     showFailureMessage(err.responseJSON.message);
 }
 // GENERATE HTML FUNCTIONS
@@ -28,18 +25,11 @@ function generateRecipes(data) {
 
 function generateNotes(data) {
 
-    // console.log('generateNotes running');
-    // console.log(`this is the data ${data}`);
-    // const currentUserIndex = data.users.findIndex( user => user.username === loadUsername());
-    // console.log(`this is the currentuser index: ${currentUserIndex}`);
-    // console.log(`this is the current user: ${data.users[currentUserIndex].username}`);
-    // const currentUser = loadUsername();
-    // console.log(currentUser);
     const currentDish = loadCurrentDish();
-    console.log(`this is the data; ${data}`);
+    
     for (let i=0; i<data.length; i++) {
         if (data[i].dishId === currentDish) {
-            console.log(`this is the note content: ${data[i].content}`);
+            
             $(".recipe-page.notes").prepend(`
                 <div class="note-wrapper" id="note-wrapper-${i}">
                     <div id="note-text-${i}" class="note-text" data-id="${data[i].id}" index="${i}">${data[i].content}</div>
@@ -58,7 +48,7 @@ function generateNotes(data) {
     };
 
 function doDeleteNote(index) {
-    console.log('doDeleteNote is running');
+    
     let currentText = document.getElementById(`note-text-${index}`);
     let noteId = currentText.dataset.id;
     api.remove(`/api/notes/${noteId}`);
@@ -66,7 +56,7 @@ function doDeleteNote(index) {
 }
 
 function toggleNoteEditor(index) {
-    console.log('toggleNoteEditor running');
+    
     let currentText = document.getElementById(`note-text-${index}`);
     let editedText = document.getElementById(`ta-${index}`);
     let editorArea = document.getElementById(`note-editor-${index}`);
@@ -81,7 +71,7 @@ function toggleNoteEditor(index) {
 }
 
 function doEditNote(index) {
-    console.log('doEditNote running');
+    
     let currentText = document.getElementById(`note-text-${index}`);
     let editedText = document.getElementById(`ta-${index}`);
     let editorArea = document.getElementById(`note-editor-${index}`);
@@ -89,19 +79,17 @@ function doEditNote(index) {
     let dishId = loadCurrentDish();
     let content = editedText.value;
 
-    console.log(`this is the noteId: ${noteId}`);
+    
   
     const updatedNote = { dishId, content };
 
-    console.log(`this is the updatedNote: ${updatedNote}`);
+    
 
-    api.update(`/api/notes/${noteId}`, updatedNote); // give catch error? 
+    api.update(`/api/notes/${noteId}`, updatedNote); 
 
     var subject = editedText.value;
     currentText.innerHTML = subject;
   
-    //currentText.style.display = 'inline';
-    // bring back editor hover button 
     editorArea.style.display = 'none';
     $(".note-delete, .note-editor-button").removeClass("hide");
 }
@@ -109,7 +97,7 @@ function doEditNote(index) {
 // HELPER FUNCTIONS
 
 function getRecipes(callbackFn) {
-    console.log('getRecipes ran');
+    
 
     api.details("/api/recipes")
     .then(recipes =>
@@ -117,18 +105,18 @@ function getRecipes(callbackFn) {
 }
 
 function getRecipeIndexFromClick(target) {
-    console.log('getRecipeFromClick ran');
-    //console.log(`this is the index: ${target.attr("index")}`);
+    
+    
     return target.attr("index");
 }
 
 function getNotes(callbackFn) {
 
-    console.log('getNotes running');
+    
 
-    api.details("/api/notes") //only gets the ones with userId val equivalent to current user's 
+    api.details("/api/notes") 
     .then(response => {
-        // console.log(`this is the note response ${response}`);
+        
         callbackFn(response);
     });
 }
@@ -136,35 +124,35 @@ function getNotes(callbackFn) {
 // EVENT LISTENERS AND HANDLERS
 
 function handleRecipeClick() {
-    //console.log('handlerRecipeClick ran');
+    
     $(".recipes-index").on("click", ".recipe-image", function(event) {
-        console.log('clicked on recipe-image');
+        
         let recipe_index = getRecipeIndexFromClick($(event.target));
 
-        console.log(`this is the index: ${recipe_index}`);
+        
         getOneRecipe(recipe_index);
         
     });
 }
 
 function getOneRecipe(recipeIndex) {
-    console.log(`function getOneRecipe ran`);
+    
     api.details('api/recipes')
     .then(recipes => 
         recipes[recipeIndex])
     .then(recipe => {
-        console.log(recipe);
+        
         handleDisplayOneRecipe(recipe);
     });
 }
 
 function handleDisplayOneRecipe(recipe) {
-    // console.log('handleDisplayOneRecipe running');
+    
     let recipe_object = recipe;
-    // console.log(`this is the displaying recipe object: ${recipe_object}`);
+    
     clearCurrentDish();
     saveCurrentDish(recipe_object.id);
-    console.log(`this is the id of the current dish showing: ${loadCurrentDish()}`);
+    
     $('html').css("background-color", "white");
     $('main').html(`
         <div class="recipe-page-container">
@@ -216,12 +204,12 @@ function handleDisplayOneRecipe(recipe) {
 }
 
 function handleDisplayRecipes() {
-    console.log('handleDisplayRecipes ran')
+    
     getRecipes(generateRecipes);
 }
 
 function handleDisplayNotes() {
-    console.log('handleDisplayNotes running');
+    
 
     if (loadUsername()) {
         $(".recipe-page-heading.notes").append(`
@@ -237,7 +225,7 @@ function handleDisplayNotes() {
 function handleLoginClick() {
  
     $(".nav-item-login").on("click", function() {
-        console.log('clicking login button');
+        
         handleDisplayLoginPage();
     });
 }
@@ -278,7 +266,6 @@ function handleDisplayLoginPage() {
 }
 
 function handleFormToggle() {
-    //console.log('handleFormToggle ran');
 
     $("body").on("click", ".switch-form-button", function() {
     $(".form-title").text($(".form-title").text() == 'Login to Bao' ? 'Create an Account' : 'Login to Bao');
@@ -301,11 +288,7 @@ function handleFormToggle() {
 }
 
 function handleLoginSubmit() {
-    // console.log(`on load: ${$(".rightnav").attr("data-login")}`);
-    // if ($(".rightnav").attr("data-login")) {
         $("body").on("click", ".login-button", function(event) {
-            console.log("number one ran");
-            console.log('handle login submit ran');
             event.preventDefault();
             const userForm = $("#session-form");
             const usernameInput = userForm.find(".username-entry").val();
@@ -317,19 +300,15 @@ function handleLoginSubmit() {
             .then(response => {
                 saveAuthToken(response);
                 saveUsername(usernameInput);
-                // location.reload();
+                location.reload();
             })
             .catch(handleErrors);
         });
     }
-// }
 
 function handleSignupSubmit() {
-    // if (!$(".rightnav").attr("data-login")) {
     $("body").on("click", ".signup-button", function(event) {
         event.preventDefault();
-        console.log("number two ran");
-        console.log('handle signup submit ran');
         const userForm = $("#session-form");
         const username = userForm.find(".username-entry").val();
         const password = userForm.find(".password-entry").val();
@@ -340,13 +319,12 @@ function handleSignupSubmit() {
         .then(token => {
             saveAuthToken(token);
             saveUsername(username);
-            //location.reload();
+            location.reload();
         })
         .catch(handleErrors);
 
     });
     }
-// }
 
 
 function handleLogOutDisplay() {
@@ -369,7 +347,6 @@ function handleCreateRecipe() {
 
     $(".nav-item-create").on("click", function() {
         if (!(loadUsername())) {
-            console.log('there is no user logged in currently');
             handleDisplayLoginPage();
         } else {
             handleDisplayRecipeForm();
@@ -428,17 +405,11 @@ function handleDisplayRecipeForm() {
 }
 
 function handleRecipeSubmit() {
-    console.log('handleRecipeSubmit running');
+
     $("main").on("submit", "#recipe-form", function(event) {
         event.preventDefault();
-        console.log('submitted a new recipe');
-        // if user not logged in redirect them to log in page 
-        //console.log(`event current target name input: ${$(event.currentTarget).find(".recipe-name").val()}`);
+
         const recipeForm = $(event.currentTarget);
-        // let ingredients_string = recipeForm.find(".recipe-ingredients").val();
-        // console.log(`ingredients_string: ${ingredients_string}`);
-        // let ingredients_array = recipeForm.find(".recipe-ingredients").val().split(",");
-        // console.log(`ingredients_array: ${ingredients_array}`);
         
         const newRecipe = {
             name: recipeForm.find(".recipe-name").val(),
@@ -457,7 +428,7 @@ function handleRecipeSubmit() {
 }
 
 function handleDisplayNoteForm() {
-    console.log(`handleDisplayNoteForm running`);
+    
     $("html").css("background-color", "#f6f7f8");
     $("main").html(`
         <div class="note-form-page">
@@ -479,10 +450,10 @@ function handleDisplayNoteForm() {
 }
 
 function handleAddNoteClick() {
-    console.log('handleAddNoteClick running');
+    
     $("main").unbind().on("click", ".add-note-button", function() {
 
-        console.log('user clicked add note button');
+        
         handleDisplayNoteForm();
         handleSubmitNote();
     });
@@ -508,7 +479,6 @@ function handleSubmitNote() {
         api.create("/api/notes", newNote)
         .then(response => {
             console.log(response);
-            console.log(`/api/recipes/${dishId}`);
             return api.details(`/api/recipes/${dishId}`)
         })
         .then(response => {
