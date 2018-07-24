@@ -279,11 +279,6 @@ function handleFormToggle() {
     // $(".rightnav").attr("data-login", $(".rightnav").attr("data-login")=="true" ? "false" : "true");
     $("#login-button").attr("class", $("#login-button").attr("class")=="login-button" ? "signup-button" : "login-button");
 
-    // if ($("#recipe-form").attr("data-login")) {
-    //     handleLoginSubmit();
-    // } else {
-    //     handleSignupSubmit();
-    // }
 });
 }
 

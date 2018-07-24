@@ -13,6 +13,34 @@ html {
     height: 30px;
  }
 
+/* flex bar nav styling*/ 
+
+.navbar {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8em 0.6em;
+    position: fixed;
+    overflow: hidden;
+    background-color: white;
+    margin: 0;
+    height: 70px;
+    vertical-align: baseline;
+    width: 100%;
+    z-index: 99;
+    box-shadow: 0 0.9px 4px 0 rgba(0,0,0,0.05);
+    top: 0;
+
+}
+.leftnav, .rightnav {
+    position: relative;
+    margin: 0 20px;
+
+
+}
+ /* original nav bar styling
 .leftnav {
     text-align: center;
 }
@@ -25,7 +53,6 @@ html {
      width: 100%;
      box-shadow: 0 0.9px 4px 0 rgba(0,0,0,0.05);
      z-index: 99;
-     /*padding: 1.8em 3.6em;*/
  }
 
 .navbar ul li:first-child {
@@ -36,7 +63,7 @@ html {
     list-style: none;
     margin: 17px;
     float: right;
-}
+}*/
 
  .nav-item-login, .nav-demo-login {
     font-family: 'Montserrat', sans-serif;
