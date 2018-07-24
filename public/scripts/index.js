@@ -1,5 +1,17 @@
 'use strict';
 
+
+function showFailureMessage(message) {
+    $(".js-error-msg").text(message).show();
+    setTimeout(() => $(".js-error-msg").fadeOut("slow"), 3000);
+}
+
+function handleErrors(err) {
+    if (err.status === 401) {
+        console.log(`401 error`); // 
+      }
+    showFailureMessage(err.responseJSON.message);
+}
 // GENERATE HTML FUNCTIONS
 function generateRecipes(data) {
     for (let i=0; i<data.length; i++) {
@@ -25,23 +37,20 @@ function generateNotes(data) {
     // console.log(currentUser);
     const currentDish = loadCurrentDish();
     console.log(`this is the data; ${data}`);
-    // console.log(currentDish);
     for (let i=0; i<data.length; i++) {
         if (data[i].dishId === currentDish) {
             console.log(`this is the note content: ${data[i].content}`);
             $(".recipe-page.notes").prepend(`
                 <div class="note-wrapper" id="note-wrapper-${i}">
-                    <div id="note-text-${i}" class="note-text" data-id="${data[i].id}" index="${i}">
-                        ${data[i].content}
-                    </div>
+                    <div id="note-text-${i}" class="note-text" data-id="${data[i].id}" index="${i}">${data[i].content}</div>
                     <div class="note-hover-container">
-                        <div class="note-editor" id="note-editor-${i}"> 
-                            <button class="note-editor-button" onclick="toggleNoteEditor(${i})">EDIT</button>
-                            <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea>
-                        </div>
+                        <button class="note-editor-button" onclick="toggleNoteEditor(${i})">EDIT</button>
                         <button class="note-delete" onclick="doDeleteNote(${i})">
                         DEL
                         </button>
+                        <div class="note-editor" id="note-editor-${i}"> 
+                            <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea>
+                        </div>
                     </div>
                 </div>
                 `)};
@@ -65,8 +74,10 @@ function toggleNoteEditor(index) {
     let subject = currentText.innerHTML;
     editedText.value = subject;
 
-    currentText.style.display = 'none';
+    //currentText.style.display = 'none';
     editorArea.style.display = 'inline';
+    $(".note-delete, .note-editor-button").addClass("hide");
+
 }
 
 function doEditNote(index) {
@@ -90,7 +101,9 @@ function doEditNote(index) {
     currentText.innerHTML = subject;
   
     //currentText.style.display = 'inline';
+    // bring back editor hover button 
     editorArea.style.display = 'none';
+    $(".note-delete, .note-editor-button").removeClass("hide");
 }
 
 // HELPER FUNCTIONS
@@ -237,17 +250,18 @@ function handleDisplayLoginPage() {
             <img src="https://res.cloudinary.com/shirleykiang/image/upload/v1531329497/bao_logo.png" alt="bao-logo" class="home-link">
             </a>
             <div class="form-div">
-                <form id="session-form" data-login="true">
+                <form id="session-form" data-login=true>
                     <fieldset>
                     <legend class="form-title">Login to Bao</legend>
                     <div class="login-form">
                         <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="jeremylin" class="username-entry" value >
+                        <input type="text" id="username" placeholder="jeremylin" class="username-entry">
 
                         <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="password" class="password-entry" value >
+                        <input type="password" id="password" placeholder="password" class="password-entry">
                         
-                        <button type="submit" form="session-form" class="login-button">Log In</button>
+                        <div class="js-error-msg"></div>
+                        <button type="submit" form="session-form" id="login-button" class="login-button">Log In</button>
                     </div>
                     </fieldset>
                     <div class="session-foot">
@@ -266,12 +280,7 @@ function handleDisplayLoginPage() {
 function handleFormToggle() {
     //console.log('handleFormToggle ran');
 
-
     $("body").on("click", ".switch-form-button", function() {
-    // console.log('switch button getting clicked');
-    // console.log($(".switch-form-button").text());
-
-    // toggle form-title
     $(".form-title").text($(".form-title").text() == 'Login to Bao' ? 'Create an Account' : 'Login to Bao');
 
     // toggle login-button
@@ -280,34 +289,64 @@ function handleFormToggle() {
      // toggle switch-form-button
     $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
     
-    $("#session-form").attr("data-login", $("#session-form").attr("data-login")=="true" ? "false" : "true");
+    // $(".rightnav").attr("data-login", $(".rightnav").attr("data-login")=="true" ? "false" : "true");
+    $("#login-button").attr("class", $("#login-button").attr("class")=="login-button" ? "signup-button" : "login-button");
 
-    console.log($("#session-form").attr("data-login"));
-    if ($("#recipe-form").attr("data-login")) {
-        handleLoginSubmit();
-    } else {
-        handleSignupSubmit();
-    }
+    // if ($("#recipe-form").attr("data-login")) {
+    //     handleLoginSubmit();
+    // } else {
+    //     handleSignupSubmit();
+    // }
 });
 }
 
 function handleLoginSubmit() {
-    console.log('handle login submit running');
-    $("body").on("submit", "#session-form", function(event) {
-        event.preventDefault();
-        const userForm = $(event.currentTarget);
-        const usernameInput = userForm.find(".username-entry").val();
-        const passwordInput = userForm.find(".password-entry").val(); 
-        const loginUser = { username: usernameInput, password: passwordInput };
-
-        api.create("/api/login", loginUser)
-        .then(response => {
-            saveAuthToken(response);
-            saveUsername(usernameInput);
-            location.reload();
+    // console.log(`on load: ${$(".rightnav").attr("data-login")}`);
+    // if ($(".rightnav").attr("data-login")) {
+        $("body").on("click", ".login-button", function(event) {
+            console.log("number one ran");
+            console.log('handle login submit ran');
+            event.preventDefault();
+            const userForm = $("#session-form");
+            const usernameInput = userForm.find(".username-entry").val();
+            const passwordInput = userForm.find(".password-entry").val(); 
+            const loginUser = { username: usernameInput, password: passwordInput };
+            $(".password-entry").val("");
+    
+            api.create("/api/login", loginUser)
+            .then(response => {
+                saveAuthToken(response);
+                saveUsername(usernameInput);
+                // location.reload();
+            })
+            .catch(handleErrors);
         });
+    }
+// }
+
+function handleSignupSubmit() {
+    // if (!$(".rightnav").attr("data-login")) {
+    $("body").on("click", ".signup-button", function(event) {
+        event.preventDefault();
+        console.log("number two ran");
+        console.log('handle signup submit ran');
+        const userForm = $("#session-form");
+        const username = userForm.find(".username-entry").val();
+        const password = userForm.find(".password-entry").val();
+        $(".password-entry").val("");
+        const newUser = { username: username, password: password };
+
+        api.create("/api/users", newUser)
+        .then(token => {
+            saveAuthToken(token);
+            saveUsername(username);
+            //location.reload();
+        })
+        .catch(handleErrors);
+
     });
-}
+    }
+// }
 
 
 function handleLogOutDisplay() {
@@ -316,7 +355,7 @@ function handleLogOutDisplay() {
         $(".nav-item-login").on("click", function() {
             handleLogout();
         });
-}
+    }
 }
 
 function handleLogout() {
@@ -324,31 +363,6 @@ function handleLogout() {
     clearAuthToken();
     clearCurrentDish();
     location.reload();
-}
-
-function handleSignupSubmit() {
-    $("body").on("submit", "form", function(event) {
-        event.preventDefault();
-        // console.log(`event current target username input: ${$(event.currentTarget).find(".username-entry").val()}`);
-        
-        const userForm = $(event.currentTarget);
-        const username = userForm.find(".username-entry").val();
-        const password = userForm.find(".password-entry").val();
-        console.log(username);
-        console.log(password);
-        
-        const newUser = { username: username, password: password };
-        
-
-        api.create("/api/users", newUser)
-        .then(token => {
-            saveAuthToken(token);
-            saveUsername(username);
-            location.reload();
-        });
-        // .catch(handleErrors); 
-
-    });
 }
 
 function handleCreateRecipe() {
@@ -384,12 +398,12 @@ function handleDisplayRecipeForm() {
 
                     <label for="recipe-servings">SERVINGS</label>
                     <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
-
-                    <label for="recipe-ingredients">INGREDIENTS</label>
-                    <input type="text" id="recipe-ingredients" placeholder="Beef, Noodle, Soup (separated by commas)" class="recipe-ingredients" value required>
                     
+                    <label for="recipe-ingredients">INGREDIENTS</label>
+                    <textarea id="recipe-ingredients" class="recipe-ingredients" rows="1" placeholder="Beef, Noodle, Soup (separated by commas)" value required></textarea>
+                
                     <label for="recipe-directions">DIRECTIONS</label>
-                    <input type="text" id="recipe-directions" placeholder="Mix, eat, enjoy (separated by commas)" class="recipe-directions" value required>
+                    <textarea id="recipe-directions" class="recipe-directions" rows="1" placeholder="Mix, eat, enjoy (separated by commas)" value required></textarea>
                     
                     <label for="recipe-image">IMAGE URL</label>
                     <input type="text" id="recipe-image" placeholder="www.google.com/image" class="recipe-image" value required>
@@ -453,7 +467,7 @@ function handleDisplayNoteForm() {
                     <h3 class="note-form-title">
                     CONTENT
                     </h3>
-                    <textarea class="note-content" rows="10" cols="30" placeholder:"i.e. Made on 7/11, be sure to add spicy beans sauce gradually"></textarea>
+                    <textarea class="note-content" rows="2" cols="30" placeholder="i.e. Made on 7/11, be sure to add spicy beans sauce gradually"></textarea>
                     <button type="submit" form="note-form" class="submit-note-form">CREATE</button>
                 </form>
             </div>
@@ -480,14 +494,10 @@ function handleAddNoteClick() {
 // }
 
 function handleSubmitNote() {
-    console.log('handlesubmitnote running');
     $("main").on("submit", "#note-form", function(event) {
-        console.log('user submitted new note to note form');
         event.preventDefault();
         const dishId = loadCurrentDish();
-        console.log(`this is current dishId when i submit note: ${dishId}`);
         const content = $(event.currentTarget).find("textarea").val();
-        //console.log(`this is the usernote: ${noteContent}`);
         const newNote = {
             dishId: dishId,
             content: content
@@ -507,7 +517,6 @@ function handleSubmitNote() {
 }
 
 function handleDemoClick() {
-    console.log('handleDemoClick running');
     if (loadUsername()) {
         $(".nav-demo-login").remove();
     };
@@ -519,7 +528,7 @@ function handleDemoClick() {
         api.create("/api/login", loginUser)
         .then(response => {
             saveAuthToken(response);
-            saveUsername(usernameInput);
+            saveUsername("testuser");
             location.reload();
         });
     });
@@ -532,8 +541,9 @@ function bindEventListeners() {
     handleCreateRecipe();
     handleDemoClick();
     handleLoginClick();
-    handleLoginSubmit();
     handleLogOutDisplay();
+    handleLoginSubmit();
+    handleSignupSubmit();
 }
 
 

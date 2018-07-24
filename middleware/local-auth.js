@@ -6,6 +6,7 @@ const User = require("../models/user");
 
 function localAuth(req, res, next) {
   const { username, password } = req.body;
+  console.log(`this is the req.body.username ${req.body.username}`);
 
   if (!username && !password) {
     const err = new Error("No credentials provided");

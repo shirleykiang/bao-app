@@ -15,8 +15,7 @@ router.post("/", (req, res, next) => {
   let { username, password = "" } = req.body;
 
   if (missingField) {
-    console.log('missing field');
-    const err = new Error(`Missing '${missingField}' in request body`);
+    const err = new Error(`Missing '${missingField}'`);
     err.status = 422;
     return next(err);
   }
@@ -34,13 +33,13 @@ router.post("/", (req, res, next) => {
 
   const sizedFields = {
     username: { min: 3 },
-    password: { min: 8, max: 72 }
   };
 
   const tooSmallField = Object.keys(sizedFields).find(
     field => "min" in sizedFields[field] &&
       req.body[field].trim().length < sizedFields[field].min
   );
+
   if (tooSmallField) {
     const min = sizedFields[tooSmallField].min;
     const err = new Error(`Field: '${tooSmallField}' must be at least ${min} characters long`);
@@ -74,13 +73,13 @@ router.post("/", (req, res, next) => {
       return createAuthToken(user);
     })
     .then(token => {
-      // console.log(token);
-      return res.status(201).json( token );
+      console.log(token);
+      return res.status(201).json(token);
     })
     .catch(err => {
       console.log(err);
       if (err.code === 11000) { // mongodb native code for existing username
-        err = new Error("The username already exists");
+        err = new Error("Sorry, this username is already taken.");
         err.status = 400;
       }
       next(err);

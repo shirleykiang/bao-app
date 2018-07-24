@@ -25,6 +25,7 @@ html {
      width: 100%;
      box-shadow: 0 0.9px 4px 0 rgba(0,0,0,0.05);
      z-index: 99;
+     /*padding: 1.8em 3.6em;*/
  }
 
 .navbar ul li:first-child {
@@ -195,6 +196,7 @@ line-height: 12pt;
 
 /* LOG IN PAGE */
 
+
 .single-nav-logo {
     display: inline-block;
     margin-left: 5.5vh;
@@ -229,13 +231,26 @@ line-height: 12pt;
 	outline: 0;
 	background: transparent;
     border-bottom: 1px solid #525252;
-    color: #525252;
+    color: #757575;
     line-height: 23pt;
     width: 100%;
+    padding-left: 6px;
     
 }
 
-.session-page input::placeholder {
+.session-page input::placeholder, .js-error-msg {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    font-size: 10.5pt;
+    letter-spacing: 2px;
+}
+
+.js-error-msg {
+    margin-top: 20px;
+    color: red;
+}
+
+.session-page input {
     font-family: "Open Sans", sans-serif;
     font-weight: 300;
     font-size: 10.5pt;
@@ -248,12 +263,12 @@ line-height: 12pt;
     font-weight: 100;
     font-size: 9pt;
     cursor: pointer;
-    color: #626262;
+    color: #818285;
     margin-top: 20px;
     transition: 0.3s;
 }
 
-.login-button {
+.login-button, .signup-button {
     font-family: 'Montserrat', sans-serif;
     font-weight: 200;
     border: none;
@@ -354,6 +369,7 @@ line-height: 12pt;
     margin-top: 2vh;
  }
 
+ 
  .note-text {
     opacity: 1;
     display: block;
@@ -364,10 +380,15 @@ line-height: 12pt;
     padding: 12px;
  }
 
-.note-editor, .note-delete {
+.note-editor-button, .note-delete {
     display: inline-block;
     cursor: pointer;
+    border: none;
 }
+
+.hide {
+    display: none;
+ }
 
 .note-hover-container {
     background-color: #818285;
@@ -379,10 +400,15 @@ line-height: 12pt;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .note-wrapper:hover {
-    opacity: 0.3;
+    opacity: 0.2;
   }
   
 .note-wrapper:hover .note-hover-container {
@@ -459,11 +485,22 @@ line-height: 12pt;
     padding: 50px 70px;
 }
 
-.note-form-content textarea {
+.note-form-content textarea, .note-form-content textarea::placeholder, .recipe-form-page textarea, .recipe-form-page textarea::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    color: #757575;
+    font-size: 9pt;
+    letter-spacing: 1.5px;
+}
+
+.note-form-content textarea, .recipe-form-page textarea {
     border: none;
     resize: vertical;
     display: block;
     margin: auto;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding: 10px 0px 10px 10px;
 }
 
 .note-form-title, .submit-note-form {
@@ -473,7 +510,6 @@ line-height: 12pt;
 }
 
 .submit-note-form  {
-    font-family: 'Montserrat', sans-serif;
     font-weight: 200;
     border: none;
     background-color: black;
@@ -524,13 +560,6 @@ line-height: 12pt;
     padding: 25px 70px;
 }
 
-.recipe-form-content textarea {
-    border: none;
-    resize: vertical;
-    display: block;
-    margin: auto;
-}
-
 .submit-recipe-form  {
     font-family: 'Montserrat', sans-serif;
     font-weight: 200;
@@ -577,6 +606,7 @@ line-height: 12pt;
     font-family: "Montserrat", sans-serif;
     font-size: 9pt;
     color: #757575;
+    letter-spacing: 1.5px;
     line-height: 23pt;
     width: 100%;
     border-bottom: 1px solid black;
@@ -596,7 +626,6 @@ line-height: 12pt;
     font-size: 9pt;
     letter-spacing: 1.5px;
     display: inline-block;
-    /*margin-bottom: 5px;*/
 }
 
 .recipe-form-content select {
