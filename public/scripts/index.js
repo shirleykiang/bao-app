@@ -300,7 +300,7 @@ function handleLoginSubmit() {
             .then(response => {
                 saveAuthToken(response);
                 saveUsername(usernameInput);
-                location.reload();
+                // location.reload();
             })
             .catch(handleErrors);
         });
@@ -365,7 +365,7 @@ function handleDisplayRecipeForm() {
                 <form id="recipe-form" onsubmit="return confirm('Are you sure you want to create this recipe?');">
 
                     <label for="recipe-name" class="recipe-title">DISH NAME</label>
-                    <input type="text" id="recipe-name" placeholder="Beef Noodle Soup" class="recipe-name" value required>
+                    <input type="text" id="recipe-name" placeholder="e.g. Beef Noodle Soup" class="recipe-name" value required>
                 
                     <label for="recipe-category">CATEGORY</label>
                     <select id="recipe-category" class="recipe-category" value required>
@@ -374,7 +374,7 @@ function handleDisplayRecipeForm() {
                     </select>
 
                     <label for="recipe-servings">SERVINGS</label>
-                    <input type="text" id="recipe-servings" placeholder="5" class="recipe-servings" value required>
+                    <input type="text" id="recipe-servings" placeholder="e.g. 5" class="recipe-servings" value required>
                     
                     <label for="recipe-ingredients">INGREDIENTS</label>
                     <textarea id="recipe-ingredients" class="recipe-ingredients" rows="1" placeholder="Beef, Noodle, Soup (separated by commas)" value required></textarea>
