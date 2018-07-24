@@ -20,14 +20,4 @@ router.post("/login", localAuth, (req, res, next) => {
     });
 });
 
-router.post("/refresh", jwtAuth, (req, res, next) => {
-  createAuthToken(req.user)
-    .then(authToken => {
-      res.json({ authToken });
-    })
-    .catch(err => {
-      next(err);
-    });
-});
-
 module.exports = router; 
