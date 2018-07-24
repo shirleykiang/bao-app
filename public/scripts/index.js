@@ -473,11 +473,9 @@ function handleSubmitNote() {
         };
         api.create("/api/notes", newNote)
         .then(response => {
-            console.log(response);
             return api.details(`/api/recipes/${dishId}`)
         })
         .then(response => {
-            console.log(response);
             handleDisplayOneRecipe(response);
         });
 

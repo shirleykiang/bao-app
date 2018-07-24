@@ -13,7 +13,6 @@ const router = express.Router();
 router.post("/login", localAuth, (req, res, next) => {
   createAuthToken(req.user)
     .then(authToken => {
-      console.log(authToken);
       res.json( authToken );
     })
     .catch(err => {

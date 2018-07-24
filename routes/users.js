@@ -9,7 +9,6 @@ const router = express.Router();
 const createAuthToken = require("../utils/auth");
 
 router.post("/", (req, res, next) => {
-  console.log('post request made to api/users');
   const requiredFields = ["username", "password"];
   const missingField = requiredFields.find(field => !(field in req.body));
   let { username, password = "" } = req.body;
@@ -73,12 +72,10 @@ router.post("/", (req, res, next) => {
       return createAuthToken(user);
     })
     .then(token => {
-      console.log(token);
       return res.status(201).json(token);
     })
     .catch(err => {
-      console.log(err);
-      if (err.code === 11000) { // mongodb native code for existing username
+      if (err.code === 11000) { 
         err = new Error("Sorry, this username is already taken.");
         err.status = 400;
       }

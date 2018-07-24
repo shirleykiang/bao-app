@@ -10,7 +10,7 @@ function jwtAuth(req, res, next) {
 
   if (!auth) {
     const err = new Error("No 'Authorization' header found");
-    console.log('error 1');
+
     err.status = 401;
     return next(err);
   }
@@ -21,7 +21,6 @@ function jwtAuth(req, res, next) {
   if (scheme !== "Bearer" || !token) {
     const err = new Error("No 'Bearer' token found");
     err.status = 401;
-    console.log('error 2');
     return next(err);
   }
 
@@ -30,7 +29,6 @@ function jwtAuth(req, res, next) {
     if (err) {
       err.message = "Invalid JWT";
       err.status = 401;
-      console.log('error 3');
       return next(err);
     }
 

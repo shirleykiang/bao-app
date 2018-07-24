@@ -1,4 +1,6 @@
-/* mobile first */
+
+@media all and (max-width: 1690px) { 
+
 
 html {
     box-sizing: border-box;
@@ -13,7 +15,6 @@ html {
     height: 30px;
  }
 
-/* flex bar nav styling*/ 
 
 .navbar {
     box-sizing: border-box;
@@ -40,31 +41,6 @@ html {
 
 
 }
- /* original nav bar styling
-.leftnav {
-    text-align: center;
-}
-
- .navbar {
-     overflow: hidden;
-     background-color: white;
-     position: fixed;
-     top: 0;
-     width: 100%;
-     box-shadow: 0 0.9px 4px 0 rgba(0,0,0,0.05);
-     z-index: 99;
- }
-
-.navbar ul li:first-child {
-    float:left;
-}
-
-.navbar ul li {
-    list-style: none;
-    margin: 17px;
-    float: right;
-}*/
-
  .nav-item-login, .nav-demo-login {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -124,26 +100,37 @@ main h2 {
     letter-spacing: 1.2px;
 }
 
- .parallax-bg {
-     background-image: url(https://res.cloudinary.com/shirleykiang/image/upload/v1531941966/taipei101reversed.png);
-     background-repeat: no-repeat;
-     background-size: cover;
-     margin: 0 12px 0 12px;
-     height: 85vh;
-     background-position: left;
-     background-attachment: fixed;
-     display: flex;
-     flex-direction: row;
-     align-items: flex-end;
-     min-width: 1050px;
- }
+.parallax-bg {
+    background-image: url(https://res.cloudinary.com/shirleykiang/image/upload/v1531941966/taipei101reversed.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 85vh;
+    background-position: left;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: row;
+    margin: 0 12px 0 12px;
+    align-items: flex-end;
+}
+
+
 
  .title-caption {
     padding: 0 0 100px 44px;
  }
 
  .recipes-section {
-     text-align: center;
+    box-sizing: inherit;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 90vw;
  }
 
  .recipes-section h3 {
@@ -151,25 +138,27 @@ main h2 {
      font-weight: 200;
      font-size: 14pt;
      padding-top: 100px;
-     padding-bottom: 80px;
+     letter-spacing: .203125em;
+     padding-bottom: 50px;
  }
 
  .recipes-index {
-     margin: auto;
-     width: 80%;
      display: flex;
      flex-flow: row wrap;
      justify-content: center;
      align-items: center;
+     margin-bottom: 150px;
  }
 
 .recipe-container {
     position: relative;
     cursor: pointer;
-    width: 60vh;
-    height: 40vh;
+    width: 60vw;
+    height: 40vw;
+    max-width: 420px;
+    max-height: 280px;
     overflow: hidden;
-    margin: 4.5vh;
+    margin: 4vw;
  }
 
  .recipe-container img {
@@ -204,12 +193,12 @@ main h2 {
   }
 
   .recipes-index .recipe-category {
-font-family: 'Montserrat', sans-serif;
-font-weight: 200;
-font-size: 11pt;
-margin-bottom: 3px;
-letter-spacing: 1px;
-line-height: 12pt;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-size: 11pt;
+    margin-bottom: 3px;
+    letter-spacing: 1px;
+    line-height: 12pt;
   }
 
   .recipes-index .recipe-name {
@@ -222,7 +211,6 @@ line-height: 12pt;
       }
 
 /* LOG IN PAGE */
-
 
 .single-nav-logo {
     display: inline-block;
@@ -416,6 +404,10 @@ line-height: 12pt;
     border: none;
 }
 
+.note-editor-button {
+    margin-right: 15px;
+}
+
 .hide {
     display: none;
  }
@@ -499,7 +491,7 @@ line-height: 12pt;
     letter-spacing: 4px;
 }
 
-.note-form-head h2 
+.note-form-head h2 {
     font-size: 9pt;
     letter-spacing: 1.3px;
     float: right;
@@ -658,14 +650,28 @@ line-height: 12pt;
     display: inline-block;
 }
 
-.recipe-form-content select {
-
 }
 
- /*
- @media all and (max-width: 1690px) { ...}
- @media all and (max-width: 1280px) { ...}
- @media all and (max-width: 980px) { ... }
- @media all and (max-width: 736px) { ... }
- @media all and (max-width: 480px) { ... }
- */
+@media all and (max-width: 736px) { 
+    .parallax-bg {
+        height: 63vh;
+        margin: 0;
+    }
+ }
+
+@media all and (max-width: 480px) { 
+    .parallax-bg {
+        height: 58vh;
+        margin: 0;
+    }
+ }
+
+ @media all and (max-width: 440px) { 
+    #create-a-recipe {
+        display: none;
+    }
+
+    .nav-item-login, .nav-demo-login {
+        font-size: 6pt;
+    }
+ }
