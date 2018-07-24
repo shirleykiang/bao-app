@@ -74,30 +74,6 @@ describe("POST /api/users", function () {
         });
     });
 
-    it("Should reject users with password less than 8 characters", function () {
-      return chai
-        .request(app)
-        .post("/api/users")
-        .send({ username, password: "asdfghj" })
-
-        .then(res => {
-          expect(res).to.have.status(422);
-          expect(res.body.message).to.equal("Field: 'password' must be at least 8 characters long");
-        });
-    });
-
-    it("Should reject users with password greater than 72 characters", function () {
-      return chai
-        .request(app)
-        .post("/api/users")
-        .send({ username, password: new Array(73).fill("a").join("") })
-
-        .then(res => {
-          expect(res).to.have.status(422);
-          expect(res.body.message).to.equal("Field: 'password' must be at most 72 characters long");
-        });
-    });
-
     it("Should reject users with duplicate username", function () {
       return User
         .create({
@@ -113,7 +89,6 @@ describe("POST /api/users", function () {
 
         .then(res => {
           expect(res).to.have.status(400);
-          expect(res.body.message).to.equal("The username already exists");
         });
     });
 

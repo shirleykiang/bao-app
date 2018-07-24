@@ -435,17 +435,20 @@ function handleRecipeSubmit() {
         // if user not logged in redirect them to log in page 
         //console.log(`event current target name input: ${$(event.currentTarget).find(".recipe-name").val()}`);
         const recipeForm = $(event.currentTarget);
+        // let ingredients_string = recipeForm.find(".recipe-ingredients").val();
+        // console.log(`ingredients_string: ${ingredients_string}`);
+        // let ingredients_array = recipeForm.find(".recipe-ingredients").val().split(",");
+        // console.log(`ingredients_array: ${ingredients_array}`);
+        
         const newRecipe = {
             name: recipeForm.find(".recipe-name").val(),
             category: recipeForm.find(".recipe-category").val(),
             image: recipeForm.find(".recipe-image").val(), 
-            ingredients: recipeForm.find(".recipe-ingredients").val(),
             servings: recipeForm.find(".recipe-servings").val(),
-            directions: recipeForm.find(".recipe-directions").val(),
+            ingredients: recipeForm.find(".recipe-ingredients").val().split(","),
+            directions: recipeForm.find(".recipe-directions").val().split(","),
             author: loadUsername()
         };
-
-        console.log(`this is the new recipe: ${newRecipe}`);
 
         api.create("api/recipes", newRecipe)
         .then(response => handleDisplayOneRecipe(response));
