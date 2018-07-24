@@ -6,7 +6,7 @@
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
-        "directions": ["1. do this]", "2. do that"],
+        "directions": ["1. do this", "2. do that"],
         "author": "333333333333333333333300"
       },
       {
@@ -16,7 +16,7 @@
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
-        "directions": ["1. do this]", "2. do that"],
+        "directions": ["1. do this", "2. do that"],
         "author": "333333333333333333333300"
       },
       {
@@ -26,7 +26,7 @@
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
-        "directions": ["1. do this]", "2. do that"],
+        "directions": ["1. do this", "2. do that"],
         "author": "333333333333333333333300"
       },
       {
@@ -36,7 +36,7 @@
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
-        "directions": ["1. do this]", "2. do that"],
+        "directions": ["1. do this", "2. do that"],
         "author": "333333333333333333333300"
       },
       {
@@ -46,7 +46,7 @@
         "servings": 6,
         "image": "http://res.cloudinary.com/shirleykiang/image/upload/v1529516949/beef-noodle-soup.jpg",
         "ingredients": ["ingredients", "more ingredients", "more ingredients"],
-        "directions": ["1. do this]", "2. do that"],
+        "directions": ["1. do this", "2. do that"],
         "author": "333333333333333333333300"
       }    
 ]
