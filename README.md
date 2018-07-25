@@ -8,13 +8,23 @@ View full API documentation [here](https://documenter.getpostman.com/view/449219
 
 # Screenshots 
 
-![Landing page](public/images/bao-app-landing-page.png)
+Landing Page:
 
-![Login page](public/images/bao-app-login-page.png)
+![Landing](public/images/bao-app-landing-page.png)
 
-![Recipe page](public/images/bao-app-recipe-page.png)
+Login Page:
+
+![Login](public/images/bao-app-login-page.png)
+
+Recipe Page:
+
+![Recipe](public/images/bao-app-recipe-page.png)
+
+Create Recipe Page:
 
 ![New Recipe Form](public/images/bao-app-new-recipe-page.png)
+
+Create Note Page:
 
 ![New Note Form](public/images/bao-app-new-note-page.png)
 
@@ -34,7 +44,9 @@ If logged in, visitors can make personal notes on each recipe that are viewable 
 
 # Wireframes & Graphics
 
-![Wireframes and illustrations were created using Adobe Illustrator.](public/images/bao-app-wireframes.png)
+Wireframes and illustrations were created using Adobe Illustrator.
+
+![Bao Graphics](public/images/bao-app-wireframes.png)
 
 # Technology
 
