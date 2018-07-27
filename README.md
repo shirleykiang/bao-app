@@ -56,8 +56,7 @@ Wireframes and illustrations were created using Adobe Illustrator.
 * jQuery
 * Node.js
 * Express.js
-* jsonwebtoken
-* bcryptjs
+* JWT
 * MongoDB
 * Heroku
 * Adobe Illustrator
@@ -65,7 +64,7 @@ Wireframes and illustrations were created using Adobe Illustrator.
 
 # Coming Soon
 
-- [ ] Build Features. Will allow users to upload their own photos to recipes, buy ingredients directly from website, and add recipes to a to-do list.
+- [ ] Build Features. Will allow users to upload their own photos to recipes, buy ingredients directly from website, and add recipes to a to-do list
 - [ ] Increase user interaction with each other. Allow users to rate recipes, add friends, etc.
 - [ ] Allow user interaction with data for more customized filtering
 - [ ] Creating custom lists of recommended recipes based on user review and note history
