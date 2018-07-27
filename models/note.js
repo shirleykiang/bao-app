@@ -1,6 +1,5 @@
 "use strict";
 
-const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
 const noteSchema = new mongoose.Schema({
@@ -19,13 +18,5 @@ noteSchema.set("toObject", {
     delete ret.password; 
   }
 });
-
-noteSchema.methods.validatePassword = function (password) {
-  return bcrypt.compare(password, this.password);
-};
-
-noteSchema.statics.hashPassword = function (password) {
-  return bcrypt.hash(password, 10);
-};
 
 module.exports = mongoose.model("Note", noteSchema);
