@@ -1,12 +1,10 @@
 "use strict";
 
 const express = require("express");
-const mongoose = require("mongoose");
 
 const Recipe = require("../models/recipe");
 
 const router = express.Router();
-
 
 router.get("/", (req, res, next) => {
 
@@ -29,6 +27,5 @@ router.get("/:id", (req, res, next) => {
       next(err);
     });
 });
-
 
 module.exports = router;

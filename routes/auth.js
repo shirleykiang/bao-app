@@ -1,10 +1,8 @@
 "use strict";
 
 const express = require("express");
-const jwt = require("jsonwebtoken");
 
 const localAuth = require("../middleware/local-auth");
-const jwtAuth = require("../middleware/jwt-auth");
 
 const createAuthToken = require("../utils/auth");
 

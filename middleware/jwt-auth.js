@@ -25,7 +25,7 @@ function jwtAuth(req, res, next) {
   }
 
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
-
+    
     if (err) {
       err.message = "Invalid JWT";
       err.status = 401;

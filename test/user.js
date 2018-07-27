@@ -35,7 +35,6 @@ describe("Bao API - Users", function () {
   });
 
 describe("POST /api/users", function () {
-
     it("Should create a new user and return token", function () {
       let res;
       return chai

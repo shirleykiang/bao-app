@@ -24,7 +24,7 @@ function disconnect() {
 }
 
 function get() {
-  return mongoose; // QUESTION
+  return mongoose;
 }
 
 module.exports = { connect, dropDatabase, disconnect, get };

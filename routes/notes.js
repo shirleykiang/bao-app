@@ -1,11 +1,9 @@
 "use strict";
 
 const express = require("express");
-const mongoose = require("mongoose");
 
 const Note = require("../models/note");
 const router = express.Router();
-
 
 router.get("/", (req, res, next) => {
   const userId = req.user.id;
@@ -21,10 +19,9 @@ router.get("/", (req, res, next) => {
     });
 });
 
-
 router.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  Note.findOne({ _id: id })
+  Note.findById(id)
     .then(result => 
         res.json(result)
     )
@@ -32,7 +29,6 @@ router.get("/:id", (req, res, next) => {
       next(err);
     });
 });
-
 
 router.post("/", (req, res, next) => {
   const { dishId, content } = req.body;
@@ -47,7 +43,6 @@ router.post("/", (req, res, next) => {
       next(err)
     );
 });
-
 
 router.put("/:id", (req, res, next) => {
   const { id } = req.params;
@@ -65,11 +60,10 @@ Note.findByIdAndUpdate(id, updateNote, { new: true })
     });
 });
 
-
 router.delete("/:id", (req, res, next) => {
   const { id } = req.params;
 
-  Note.findOneAndRemove({ _id: id })
+  Note.findByIdAndRemove(id)
     .then(() => {
       res.status(204).end();
     })

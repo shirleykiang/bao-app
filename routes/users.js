@@ -58,8 +58,6 @@ router.post("/", (req, res, next) => {
     return next(err);
   }
 
-
-
   return User.hashPassword(password)
     .then(digest => {
       const newUser = {
@@ -82,7 +80,5 @@ router.post("/", (req, res, next) => {
       next(err);
     });
 });
-
-
 
 module.exports = router;

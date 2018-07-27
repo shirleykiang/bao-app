@@ -1,7 +1,6 @@
 "use strict";
 
 const bcrypt = require("bcryptjs");
-
 const User = require("../models/user");
 
 function localAuth(req, res, next) {
@@ -17,7 +16,6 @@ function localAuth(req, res, next) {
   return User.findOne({ username })
     .then(_user => {
       user = _user;
-
       if (!user) {
         const err = new Error("Invalid credentials");
         err.status = 401;
@@ -28,7 +26,6 @@ function localAuth(req, res, next) {
       return bcrypt.compare(password, user.password);
     })
     .then(isValid => {
-
       if (!isValid) {
         const err = new Error("Invalid credentials");
         err.status = 401;
@@ -39,7 +36,7 @@ function localAuth(req, res, next) {
       req.user = user;
       next();
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 }

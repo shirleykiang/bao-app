@@ -1,14 +1,11 @@
 "use strict";
 
 const express = require("express");
-const mongoose = require("mongoose");
 
 const Recipe = require("../models/recipe");
 
 const router = express.Router();
 
-
-/* ========== POST/CREATE AN ITEM ========== */
 router.post("/", (req, res, next) => {
     const { name, category, servings, image, ingredients, directions } = req.body;
     const author = req.user.id; 
