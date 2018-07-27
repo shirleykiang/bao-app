@@ -1,6 +1,5 @@
 'use strict';
 
-
 function showFailureMessage(message) {
     $(".js-error-msg").text(message).show();
     setTimeout(() => $(".js-error-msg").fadeOut("slow"), 3000);
@@ -9,7 +8,7 @@ function showFailureMessage(message) {
 function handleErrors(err) {
     showFailureMessage(err.responseJSON.message);
 }
-// GENERATE HTML FUNCTIONS
+// Generate HTML functions
 function generateRecipes(data) {
     for (let i=0; i<data.length; i++) {
         $(".recipes-index").append(
@@ -39,7 +38,7 @@ function generateNotes(data) {
                         DEL
                         </button>
                         <div class="note-editor" id="note-editor-${i}"> 
-                            <textarea id="ta-${i}" rows="10" cols="50" onblur="doEditNote(${i})"></textarea>
+                            <textarea id="ta-${i}" maxlength="208" rows="10" cols="50" onblur="doEditNote(${i})"></textarea>
                         </div>
                     </div>
                 </div>
@@ -64,10 +63,8 @@ function toggleNoteEditor(index) {
     let subject = currentText.innerHTML;
     editedText.value = subject;
 
-    //currentText.style.display = 'none';
     editorArea.style.display = 'inline';
     $(".note-delete, .note-editor-button").addClass("hide");
-
 }
 
 function doEditNote(index) {
@@ -78,12 +75,8 @@ function doEditNote(index) {
     let noteId = currentText.dataset.id;
     let dishId = loadCurrentDish();
     let content = editedText.value;
-
-    
   
     const updatedNote = { dishId, content };
-
-    
 
     api.update(`/api/notes/${noteId}`, updatedNote); 
 
@@ -94,65 +87,48 @@ function doEditNote(index) {
     $(".note-delete, .note-editor-button").removeClass("hide");
 }
 
-// HELPER FUNCTIONS
+// Helper functions
 
 function getRecipes(callbackFn) {
-    
-
     api.details("/api/recipes")
     .then(recipes =>
     callbackFn(recipes));
 }
 
 function getRecipeIndexFromClick(target) {
-    
-    
     return target.attr("index");
 }
 
 function getNotes(callbackFn) {
-
-    
-
     api.details("/api/notes") 
     .then(response => {
-        
         callbackFn(response);
     });
 }
 
-// EVENT LISTENERS AND HANDLERS
+// Event listeners and handlers
 
 function handleRecipeClick() {
     
-    $(".recipes-index").on("click", ".recipe-image", function(event) {
-        
+    $(".recipes-index").on("click", ".recipe-image", function(event) {  
         let recipe_index = getRecipeIndexFromClick($(event.target));
-
-        
         getOneRecipe(recipe_index);
-        
     });
 }
 
 function getOneRecipe(recipeIndex) {
-    
     api.details('api/recipes')
     .then(recipes => 
         recipes[recipeIndex])
     .then(recipe => {
-        
         handleDisplayOneRecipe(recipe);
     });
 }
 
 function handleDisplayOneRecipe(recipe) {
-    
     let recipe_object = recipe;
-    
     clearCurrentDish();
     saveCurrentDish(recipe_object.id);
-    
     $('html').css("background-color", "white");
     $('main').html(`
         <div class="recipe-page-container">
@@ -204,13 +180,10 @@ function handleDisplayOneRecipe(recipe) {
 }
 
 function handleDisplayRecipes() {
-    
     getRecipes(generateRecipes);
 }
 
 function handleDisplayNotes() {
-    
-
     if (loadUsername()) {
         $(".recipe-page-heading.notes").append(`
             Notes`);
@@ -221,11 +194,8 @@ function handleDisplayNotes() {
     }
 }
 
-
 function handleLoginClick() {
- 
-    $(".nav-item-login").on("click", function() {
-        
+    $(".nav-item-login").on("click", function() {    
         handleDisplayLoginPage();
     });
 }
@@ -266,20 +236,12 @@ function handleDisplayLoginPage() {
 }
 
 function handleFormToggle() {
-
     $("body").on("click", ".switch-form-button", function() {
     $(".form-title").text($(".form-title").text() == 'Login to Bao' ? 'Create an Account' : 'Login to Bao');
-
-    // toggle login-button
     $(".login-button").text($(".login-button").text() == 'Log In' ? 'Sign Up' : 'Log In');
-
-     // toggle switch-form-button
     $(".switch-form-button").text($(".switch-form-button").text() == 'New to Bao? Signup instead' ? 'Have an account? Login' : 'New to Bao? Signup instead');
-    
-    // $(".rightnav").attr("data-login", $(".rightnav").attr("data-login")=="true" ? "false" : "true");
     $("#login-button").attr("class", $("#login-button").attr("class")=="login-button" ? "signup-button" : "login-button");
-
-});
+    });
 }
 
 function handleLoginSubmit() {
@@ -290,16 +252,16 @@ function handleLoginSubmit() {
             const passwordInput = userForm.find(".password-entry").val(); 
             const loginUser = { username: usernameInput, password: passwordInput };
             $(".password-entry").val("");
-    
+
             api.create("/api/login", loginUser)
             .then(response => {
                 saveAuthToken(response);
                 saveUsername(usernameInput);
-                // location.reload();
+                location.reload();
             })
             .catch(handleErrors);
         });
-    }
+}
 
 function handleSignupSubmit() {
     $("body").on("click", ".signup-button", function(event) {
@@ -319,7 +281,7 @@ function handleSignupSubmit() {
         .catch(handleErrors);
 
     });
-    }
+}
 
 
 function handleLogOutDisplay() {
@@ -339,7 +301,6 @@ function handleLogout() {
 }
 
 function handleCreateRecipe() {
-
     $(".nav-item-create").on("click", function() {
         if (!(loadUsername())) {
             handleDisplayLoginPage();
@@ -372,10 +333,10 @@ function handleDisplayRecipeForm() {
                     <input type="text" id="recipe-servings" placeholder="e.g. 5" class="recipe-servings" value required>
                     
                     <label for="recipe-ingredients">INGREDIENTS</label>
-                    <textarea id="recipe-ingredients" class="recipe-ingredients" rows="1" placeholder="Beef, Noodle, Soup (separated by commas)" value required></textarea>
+                    <textarea id="recipe-ingredients" class="recipe-ingredients" rows="4" placeholder="Beef, Noodle, Soup (separated by commas)" value required></textarea>
                 
                     <label for="recipe-directions">DIRECTIONS</label>
-                    <textarea id="recipe-directions" class="recipe-directions" rows="1" placeholder="Mix, eat, enjoy (separated by commas)" value required></textarea>
+                    <textarea id="recipe-directions" class="recipe-directions" rows="4" placeholder="Mix, eat, enjoy (separated by commas)" value required></textarea>
                     
                     <label for="recipe-image">IMAGE URL</label>
                     <input type="text" id="recipe-image" placeholder="www.google.com/image" class="recipe-image" value required>
@@ -384,28 +345,14 @@ function handleDisplayRecipeForm() {
                 </form>
             </div>
         </div>
-
     `);
-
-    //code for image drop zone, re-implement back when figure out html 
-    // <label for="recipe-image">Image</label>
-    // <div class="recipe-image" id="dropzone" style="width: 200px; height: 200px; border-width: 2px; border-color: rgb(102, 102, 102); border-style: dashed; border-radius: 5px;">
-    // <p>Drop an image or click to select a file to upload</p>
-    
-//     <input type="file" accept="image/*" style="display: none;">
-// </div>
-
     handleRecipeSubmit();
-
 }
 
 function handleRecipeSubmit() {
-
     $("main").on("submit", "#recipe-form", function(event) {
         event.preventDefault();
-
         const recipeForm = $(event.currentTarget);
-        
         const newRecipe = {
             name: recipeForm.find(".recipe-name").val(),
             category: recipeForm.find(".recipe-category").val(),
@@ -418,12 +365,10 @@ function handleRecipeSubmit() {
 
         api.create("api/recipes", newRecipe)
         .then(response => handleDisplayOneRecipe(response));
-
     });
 }
 
 function handleDisplayNoteForm() {
-    
     $("html").css("background-color", "#f6f7f8");
     $("main").html(`
         <div class="note-form-page">
@@ -434,9 +379,9 @@ function handleDisplayNoteForm() {
                 </div>
                 <form id="note-form">
                     <h3 class="note-form-title">
-                    CONTENT
+                    CONTENT (208 char. max)
                     </h3>
-                    <textarea class="note-content" rows="2" cols="30" placeholder="i.e. Made on 7/11, be sure to add spicy beans sauce gradually"></textarea>
+                    <textarea class="note-content" rows="2" cols="30" maxlength="208" placeholder="i.e. Made on 7/11, be sure to add spicy beans sauce gradually"></textarea>
                     <button type="submit" form="note-form" class="submit-note-form">CREATE</button>
                 </form>
             </div>
@@ -445,22 +390,11 @@ function handleDisplayNoteForm() {
 }
 
 function handleAddNoteClick() {
-    
     $("main").unbind().on("click", ".add-note-button", function() {
-
-        
         handleDisplayNoteForm();
         handleSubmitNote();
     });
 }
-
-// function handleEditNoteClick() {
-//     // do something
-// }
-
-// function handleDeleteNoteClick() {
-//     // do something
-// }
 
 function handleSubmitNote() {
     $("main").on("submit", "#note-form", function(event) {
@@ -471,6 +405,7 @@ function handleSubmitNote() {
             dishId: dishId,
             content: content
         };
+
         api.create("/api/notes", newNote)
         .then(response => {
             return api.details(`/api/recipes/${dishId}`)
@@ -486,9 +421,7 @@ function handleDemoClick() {
     if (loadUsername()) {
         $(".nav-demo-login").remove();
     };
-
     $(".nav-demo-login").on("click", function(event) {
-
         const loginUser = { username: "testuser", password: "testuserpassword" };
 
         api.create("/api/login", loginUser)
@@ -511,6 +444,5 @@ function bindEventListeners() {
     handleLoginSubmit();
     handleSignupSubmit();
 }
-
 
 $(bindEventListeners);
